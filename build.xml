@@ -277,7 +277,7 @@
     </copy>
 
     <!-- copy the analyzer.jar file to the lib directory -->
-    <copy file="${analyzer_lib}" todir="${web_lib}"/>
+    <!-- <copy file="${analyzer_lib}" todir="${web_lib}"/> KEVIN CHANGED THIS-->
 
   </target>
 
