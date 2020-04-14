@@ -10,6 +10,6 @@
 <body>
 <h3>Team MVC Project</h3>
 
-<p>Data from my bean: ${aBean.data}</p>
+<p>Data from my bean: ${myCoolBean.data}</p>
 </body>
 </html>
