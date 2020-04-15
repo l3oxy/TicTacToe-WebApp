@@ -13,15 +13,21 @@
 <p>Data from my bean: ${myCoolBean.data}</p>
 
 <table>
-    <tbody style="border-color: black">
+    <tbody>
         <tr>
-            <td>1</td> <td>2</td> <td>3</td>
+            <td><a href="#1"><div class="table-cell">1</div></a></td>
+            <td><a href="#2"><div class="table-cell">2</div></a></td>
+            <td><a href="#3"><div class="table-cell">3</div></a></td>
         </tr>
         <tr>
-            <td>4</td> <td>5</td> <td>6</td>
+            <td><a href="#4"><div class="table-cell">4</div></a></td>
+            <td><a href="#5"><div class="table-cell">5</div></a></td>
+            <td><a href="#6"><div class="table-cell">6</div></a></td>
         </tr>
         <tr>
-            <td>7</td> <td>8</td> <td>9</td>
+            <td><a href="#7"><div class="table-cell">7</div></a></td>
+            <td><a href="#8"><div class="table-cell">8</div></a></td>
+            <td><a href="#9"><div class="table-cell">9</div></a></td>
         </tr>
     </tbody>
 </table>
