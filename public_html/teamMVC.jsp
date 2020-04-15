@@ -10,7 +10,9 @@
 <body>
 <h3>Team MVC Project</h3>
 
-<p>Data from my bean: ${myCoolBean.data}</p>
+<%
+
+%>
 
 <table>
     <tbody>
@@ -31,5 +33,7 @@
         </tr>
     </tbody>
 </table>
+
+<%=  %>
 </body>
 </html>

@@ -6,7 +6,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 /**
- * @author
+ *
  */
 @WebServlet(
         name = "teamMVC",
@@ -15,7 +15,6 @@ import javax.servlet.annotation.*;
 public class TeamMVCServlet extends HttpServlet {
 
     /**
-     *
      * Handles HTTP GET requests.
      *
      * @param request the HttpServletRequest object
@@ -28,9 +27,9 @@ public class TeamMVCServlet extends HttpServlet {
 
         JavaBean aBean = new JavaBean();
 
-        aBean.setData("I'm special!");
+        //aBean.setData("I'm special!");
 
-        request.setAttribute("myCoolBean", aBean);
+        //request.setAttribute("myCoolBean", aBean);
 
         String url = "/teamMVC.jsp";
 
