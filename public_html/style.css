@@ -1,0 +1,9 @@
+body {
+    background-color: lightblue;
+}
+
+table, tbody, td {
+    border-style: solid;
+    border-color: black;
+    border-width: 1em;
+}
