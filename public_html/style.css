@@ -1,8 +1,13 @@
 body {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
     background-color: lightblue;
 }
 
 table, tbody, td {
+    margin-left: auto;
+    margin-right: auto;
     border-style: solid;
     border-color: black;
     border-width: 1em;
