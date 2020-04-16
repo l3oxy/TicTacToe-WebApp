@@ -9,14 +9,8 @@
 
 <body>
 <h3>Team MVC Project</h3>
-<%
-    if (beanData.player1Turn) {
-        out.println("X's turn");
-    } else {
-        out.println("O's turn");
-    }
-%>
-<h4>Player1Turn=${beanData.isPlayer1Turn()}</h4>
+
+<h4>${beanData.turnString}</h4>
 
 <table>
     <tbody>

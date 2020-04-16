@@ -37,6 +37,7 @@ public class TeamMVCServlet extends HttpServlet {
         Map<Integer, Integer> boardStates = beanData.getBoardStates();
         boolean player1Turn = beanData.isPlayer1Turn();
         int cellSelected = 0;
+        String turnString;
 
         // Getting the selected cell
         if (request.getParameter("cell") != null) {
@@ -54,8 +55,16 @@ public class TeamMVCServlet extends HttpServlet {
             }
         }
 
+        // Changing the turn string
+        if (player1Turn) {
+            turnString = "X's Turn";
+        } else {
+            turnString = "O's Turn";
+        }
+
+        // Setting bean data
+        beanData.setTurnString(turnString);
         beanData.setBoardStates(boardStates);
-        beanData.setPlayer1Turn(player1Turn);
 
         request.setAttribute("beanData", beanData);
 

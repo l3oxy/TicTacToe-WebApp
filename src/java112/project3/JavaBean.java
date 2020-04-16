@@ -42,6 +42,11 @@ public class JavaBean {
     private int draws;
 
     /**
+     * Words describing who's turn it is.
+     */
+    private String turnString;
+
+    /**
      * Constructor that sets initial values for the variables.
      */
     public JavaBean() {
@@ -102,5 +107,13 @@ public class JavaBean {
 
     public void setDraws(int draws) {
         this.draws = draws;
+    }
+
+    public String getTurnString() {
+        return turnString;
+    }
+
+    public void setTurnString(String turnString) {
+        this.turnString = turnString;
     }
 }
