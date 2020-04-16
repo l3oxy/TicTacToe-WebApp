@@ -1,16 +1,18 @@
 package java112.project3;
 
 import java.io.*;
+import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 /**
- *
+ * This is a servlet that gets and changes data depending on the values in the
+ * JavaBean for the Team MVC project.
  */
 @WebServlet(
         name = "teamMVC",
-        urlPatterns = { "/team-mvc" }
+        urlPatterns = { "/tic-tac-toe" }
 )
 public class TeamMVCServlet extends HttpServlet {
 
@@ -25,11 +27,27 @@ public class TeamMVCServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        JavaBean aBean = new JavaBean();
+        JavaBean beanData = new JavaBean();
+        int cellSelected = request.getParameter("cell");
+        Map<Integer, Integer> boardStates = beanData.getBoardStates();
+        boolean player1Turn = beanData.getPlayer1Turn();
 
-        //aBean.setData("I'm special!");
+        for (i = 1, i < 10, i++) {
+            if (cellSelected == i) {
+                if (player1Turn) {
+                    boardStates(i, 1);
+                } else {
+                    boardStates(i, 2);
+                }
+            }
+        }
 
-        //request.setAttribute("myCoolBean", aBean);
+        // Changing the turn
+        if (player1Turn) {
+            player1Turn = false;
+        } else {
+            player1Turn = true;
+        }
 
         String url = "/teamMVC.jsp";
 

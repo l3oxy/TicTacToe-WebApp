@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="generator" content="HTML Tidy, see www.w3.org">
@@ -9,10 +8,6 @@
 
 <body>
 <h3>Team MVC Project</h3>
-
-<%
-
-%>
 
 <table>
     <tbody>
@@ -34,6 +29,5 @@
     </tbody>
 </table>
 
-<%=  %>
 </body>
 </html>

@@ -9,11 +9,16 @@ import java.util.*;
 public class JavaBean {
 
     /**
-     * Describes the state of the board. The keys represent positions: 1, 2, and
+     * Describes the state of the board. The keys represent cells: 1, 2, and
      * 3 being the top row; 4, 5, and 6 the middle; and 7, 8, and 9 the bottom.
      * The values represent the state: 0 being empty, 1 being X, and 2 being O.
      */
-    private Map<Integer, Integer> boardGridStates;
+    private Map<Integer, Integer> boardStates;
+
+    /**
+     * Indicates the selected cell from the last player.
+     */
+    private int cell;
 
     /**
      * Marks who's turn it is. If true, it's player1's turn. If false, it's
@@ -45,7 +50,11 @@ public class JavaBean {
      * Constructor that sets initial values for the variables.
      */
     public JavaBean() {
-        boardGridStates = new TreeMap<Integer, Integer>();
+        boardStates = new TreeMap<Integer, Integer>();
+        for (i = 1, i < 10, i++) {
+            boardStates.put(i, 0);
+        }
+        cell = 0;
         player1Turn = true;
         gameOver = false;
         player1Score = 0;
@@ -53,12 +62,12 @@ public class JavaBean {
         draws = 0;
     }
 
-    public Map<Integer, Integer> getBoardGridStates() {
-        return boardGridStates;
+    public Map<Integer, Integer> getBoardStates() {
+        return boardStates;
     }
 
-    public void setBoardGridStates(Map<Integer, Integer> boardGridStates) {
-        this.boardGridStates = boardGridStates;
+    public void setBoardStates(Map<Integer, Integer> boardStates) {
+        this.boardStates = boardStates;
     }
 
     public boolean isPlayer1Turn() {
