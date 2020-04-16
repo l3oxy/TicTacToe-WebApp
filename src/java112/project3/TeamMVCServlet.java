@@ -6,6 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
+
 /**
  * This is a servlet that gets and changes data depending on the values in the
  * JavaBean for the Team MVC project.
@@ -15,6 +16,12 @@ import javax.servlet.annotation.*;
         urlPatterns = { "/tic-tac-toe" }
 )
 public class TeamMVCServlet extends HttpServlet {
+
+    private JavaBean beanData;
+
+    public void init() throws ServletException {
+        beanData = new JavaBean();
+    }
 
     /**
      * Handles HTTP GET requests.
@@ -26,8 +33,6 @@ public class TeamMVCServlet extends HttpServlet {
      */
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        JavaBean beanData = new JavaBean();
 
         Map<Integer, Integer> boardStates = beanData.getBoardStates();
         boolean player1Turn = beanData.isPlayer1Turn();
