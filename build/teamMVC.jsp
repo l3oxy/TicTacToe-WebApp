@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@ page import="java.io.*, java.util.*" %>
+<%--<%@ page import="java.io.*, java.util.*" %>--%>
 <html>
 <head>
     <meta name="generator" content="HTML Tidy, see www.w3.org">
@@ -9,6 +9,13 @@
 
 <body>
 <h3>Team MVC Project</h3>
+<%
+    if (beanData.player1Turn) {
+        out.println("X's turn");
+    } else {
+        out.println("O's turn");
+    }
+%>
 <h4>Player1Turn=${beanData.isPlayer1Turn()}</h4>
 
 <table>
