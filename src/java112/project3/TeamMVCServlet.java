@@ -16,6 +16,11 @@ import javax.servlet.annotation.*;
 )
 public class TeamMVCServlet extends HttpServlet {
 
+
+    public void init() throws ServletException {
+
+    }
+
     /**
      * Handles HTTP GET requests.
      *
@@ -28,16 +33,19 @@ public class TeamMVCServlet extends HttpServlet {
             throws ServletException, IOException {
 
         JavaBean beanData = new JavaBean();
-        int cellSelected = request.getParameter("cell");
         Map<Integer, Integer> boardStates = beanData.getBoardStates();
-        boolean player1Turn = beanData.getPlayer1Turn();
+        boolean player1Turn = beanData.isPlayer1Turn();
 
-        for (i = 1, i < 10, i++) {
+        int cellSelected = 0;
+        if (request.getParameter("cell") != null) {
+            cellSelected = Integer.parseInt(request.getParameter("cell"));
+        }
+        for (int i = 1; i < 10; i++) {
             if (cellSelected == i) {
                 if (player1Turn) {
-                    boardStates(i, 1);
+                    boardStates.replace(i, 1);
                 } else {
-                    boardStates(i, 2);
+                    boardStates.replace(i, 2);
                 }
             }
         }

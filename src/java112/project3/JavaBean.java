@@ -16,11 +16,6 @@ public class JavaBean {
     private Map<Integer, Integer> boardStates;
 
     /**
-     * Indicates the selected cell from the last player.
-     */
-    private int cell;
-
-    /**
      * Marks who's turn it is. If true, it's player1's turn. If false, it's
      * player2's turn
      */
@@ -51,10 +46,9 @@ public class JavaBean {
      */
     public JavaBean() {
         boardStates = new TreeMap<Integer, Integer>();
-        for (i = 1, i < 10, i++) {
+        for (int i = 1; i < 10; i++) {
             boardStates.put(i, 0);
         }
-        cell = 0;
         player1Turn = true;
         gameOver = false;
         player1Score = 0;
