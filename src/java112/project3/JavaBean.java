@@ -49,7 +49,6 @@ public class JavaBean {
         for (int i = 1; i < 10; i++) {
             boardStates.put(i, 0);
         }
-        player1Turn = true;
         gameOver = false;
         player1Score = 0;
         player2Score = 0;

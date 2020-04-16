@@ -16,11 +16,6 @@ import javax.servlet.annotation.*;
 )
 public class TeamMVCServlet extends HttpServlet {
 
-
-    public void init() throws ServletException {
-
-    }
-
     /**
      * Handles HTTP GET requests.
      *
@@ -33,6 +28,7 @@ public class TeamMVCServlet extends HttpServlet {
             throws ServletException, IOException {
 
         JavaBean beanData = new JavaBean();
+
         Map<Integer, Integer> boardStates = beanData.getBoardStates();
         boolean player1Turn = beanData.isPlayer1Turn();
 
@@ -57,9 +53,15 @@ public class TeamMVCServlet extends HttpServlet {
             player1Turn = true;
         }
 
+        beanData.setBoardStates(boardStates);
+        beanData.setPlayer1Turn(player1Turn);
+
+        request.setAttribute("beanData", beanData);
+
         String url = "/teamMVC.jsp";
 
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        RequestDispatcher dispatcher =
+                getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
     }
 }
