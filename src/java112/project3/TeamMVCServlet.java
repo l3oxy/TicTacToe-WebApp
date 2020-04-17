@@ -34,9 +34,9 @@ public class TeamMVCServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Map<Integer, Integer> boardStates = beanData.getBoardStates();
+        List<String> boardStates = beanData.getBoardStates();
         boolean player1Turn = beanData.isPlayer1Turn();
-        int cellSelected = 0;
+        int cellSelected = -1;
         String turnString;
 
         // Getting the selected cell
@@ -45,12 +45,12 @@ public class TeamMVCServlet extends HttpServlet {
         }
 
         // Changing the board state based on the selected cell
-        for (int i = 1; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             if (cellSelected == i) {
                 if (player1Turn) {
-                    boardStates.replace(i, 1);
+                    boardStates.set(i, "O");
                 } else {
-                    boardStates.replace(i, 2);
+                    boardStates.set(i, "X");
                 }
             }
         }
