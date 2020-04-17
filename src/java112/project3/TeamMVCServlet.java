@@ -37,6 +37,8 @@ public class TeamMVCServlet extends HttpServlet {
         List<String> boardStates = beanData.getBoardStates();
         boolean player1Turn = beanData.isPlayer1Turn();
         boolean gameOver = beanData.isGameOver();
+        int player1Score = beanData.getPlayer1Score();
+        int player2Score = beanData.getPlayer2Score();
         int cellSelected = -1;
         String turnString;
 
@@ -63,6 +65,7 @@ public class TeamMVCServlet extends HttpServlet {
                 if ((boardStates.get(i) == "X") &&
                         (boardStates.get(i + 2 * (4 - i)) == "X")) {
                     gameOver = true;
+                    player1Score++;
                 }
             }
         } else if (boardStates.get(4) == "O") {
@@ -70,6 +73,7 @@ public class TeamMVCServlet extends HttpServlet {
                 if ((boardStates.get(i) == "O") &&
                         (boardStates.get(i + 2 * (4 - i)) == "O")) {
                     gameOver = true;
+                    player2Score++;
                 }
             }
         }
@@ -77,30 +81,38 @@ public class TeamMVCServlet extends HttpServlet {
         if (boardStates.get(0) == "X") {
             if ((boardStates.get(1) == "X") && (boardStates.get(2) == "X")) {
                 gameOver = true;
+                player1Score++;
             } else if ((boardStates.get(3) == "X") &&
                     (boardStates.get(6) == "X")) {
                 gameOver = true;
+                player1Score++;
             }
         } else if (boardStates.get(8) == "X") {
             if ((boardStates.get(5) == "X") && (boardStates.get(2) == "X")) {
                 gameOver = true;
+                player1Score++;
             } else if ((boardStates.get(7) == "X") &&
                     (boardStates.get(6) == "X")) {
                 gameOver = true;
+                player1Score++;
             }
         } else if (boardStates.get(0) == "O") {
             if ((boardStates.get(1) == "O") && (boardStates.get(2) == "O")) {
                 gameOver = true;
+                player2Score++;
             } else if ((boardStates.get(3) == "O") &&
                     (boardStates.get(6) == "O")) {
                 gameOver = true;
+                player2Score++;
             }
         } else if (boardStates.get(8) == "O") {
             if ((boardStates.get(5) == "O") && (boardStates.get(2) == "O")) {
                 gameOver = true;
+                player2Score++;
             } else if ((boardStates.get(7) == "O") &&
                     (boardStates.get(6) == "O")) {
                 gameOver = true;
+                player2Score++;
             }
         }
 
@@ -115,6 +127,8 @@ public class TeamMVCServlet extends HttpServlet {
         beanData.setTurnString(turnString);
         beanData.setBoardStates(boardStates);
         beanData.setGameOver(gameOver);
+        beanData.setPlayer1Score(player1Score);
+        beanData.setPlayer2Score(player2Score);
 
         request.setAttribute("beanData", beanData);
 
