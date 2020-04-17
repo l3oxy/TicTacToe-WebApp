@@ -11,6 +11,7 @@
 
 <h4>${beanData.turnString}</h4>
 <p>${beanData.boardStates}</p>
+<p>Game Over? = ${beanData.gameOver}</p>
 <table>
     <tbody>
         <tr>
