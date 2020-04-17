@@ -39,6 +39,7 @@ public class TeamMVCServlet extends HttpServlet {
         boolean gameOver = beanData.isGameOver();
         int player1Score = beanData.getPlayer1Score();
         int player2Score = beanData.getPlayer2Score();
+        int draws = beanData.getDraws();
         int cellSelected = -1;
         String turnString;
 
@@ -116,8 +117,35 @@ public class TeamMVCServlet extends HttpServlet {
             }
         }
 
-        // Changing the turn string
-        if (player1Turn) {
+        // Checking for Draw or Win, changing the turn string, and setting board
+        if (!gameOver && !boardStates.contains("_")) {
+            draws++;
+            beanData.setDraws(draws);
+            boardStates.clear();
+            for (int i = 0; i < 9; i++) {
+                boardStates.add("_");
+                beanData.setBoardStates(boardStates);
+            }
+            if (player1Turn) {
+                turnString = "Game Over! Draw! Starting new game. X's Turn";
+            } else {
+                turnString = "Game Over! Draw! Starting new game. O's Turn";
+            }
+        } else if (gameOver) {
+            beanData.setPlayer1Score(player1Score);
+            beanData.setPlayer2Score(player2Score);
+            gameOver = false;
+            boardStates.clear();
+            for (int i = 0; i < 9; i++) {
+                boardStates.add("_");
+                beanData.setBoardStates(boardStates);
+            }
+            if (player1Turn) {
+                turnString = "Game Over! O Wins! Starting new game. X's Turn";
+            } else {
+                turnString = "Game Over! X Wins! Starting new game. O's Turn";
+            }
+        } else if (player1Turn) {
             turnString = "X's Turn";
         } else {
             turnString = "O's Turn";
@@ -127,8 +155,6 @@ public class TeamMVCServlet extends HttpServlet {
         beanData.setTurnString(turnString);
         beanData.setBoardStates(boardStates);
         beanData.setGameOver(gameOver);
-        beanData.setPlayer1Score(player1Score);
-        beanData.setPlayer2Score(player2Score);
 
         request.setAttribute("beanData", beanData);
 
