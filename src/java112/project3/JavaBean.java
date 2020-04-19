@@ -9,8 +9,13 @@ import java.util.*;
 public class JavaBean {
 
     /**
-     * Describes the state of the board. The index represent cells: 0, 1, and
-     * 2 being the top row; 3, 4, and 5 the middle; and 6, 7, and 8 the bottom.
+     * Describes the state of the board.
+     * The index represent cells:
+     *   0 | 1 | 2
+     *   ――+―――+―――
+     *   3 | 4 | 5
+     *   ――+―――+―――
+     *   6 | 7 | 8
      */
     private List<String> boardStates;
 
@@ -50,7 +55,7 @@ public class JavaBean {
      */
     public JavaBean() {
         boardStates = new ArrayList<String>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; ++i) {
             boardStates.add("_");
         }
         player1Turn = true;
@@ -65,7 +70,9 @@ public class JavaBean {
     }
 
     public void setBoardStates(List<String> boardStates) {
-        this.boardStates = boardStates;
+        if (boardStates != null) {
+            this.boardStates = boardStates;
+        }
     }
 
     public boolean isPlayer1Turn() {
@@ -113,6 +120,8 @@ public class JavaBean {
     }
 
     public void setTurnString(String turnString) {
-        this.turnString = turnString;
+        if (turnString != null) {
+            this.turnString = turnString;
+        }
     }
 }
