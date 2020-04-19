@@ -55,7 +55,7 @@ public class JavaBean {
      */
     public JavaBean() {
         boardStates = new ArrayList<String>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; ++i) {
             boardStates.add("_");
         }
         player1Turn = true;

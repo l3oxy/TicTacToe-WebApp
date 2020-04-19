@@ -49,15 +49,16 @@ public class TeamMVCServlet extends HttpServlet {
         }
 
         // Changing the board state based on the selected cell
-        for (int i = 0; i < 9; i++) {
-            if (cellSelected == i) {
+        if (0 <= cellSelected && cellSelected <= 8) {  // if spot is valid
+            if (boardStates.get(cellSelected).equals("_")) {  // If spot is not already taken
                 if (player1Turn) {
-                    boardStates.set(i, "O");
+                    boardStates.set(cellSelected, "O");
                 } else {
-                    boardStates.set(i, "X");
+                    boardStates.set(cellSelected, "X");
                 }
             }
         }
+
 
         // Checking for a win
         // Checking for a win involving the center
@@ -82,7 +83,7 @@ public class TeamMVCServlet extends HttpServlet {
         if (boardStates.get(0).equals("X")) {
             if ((boardStates.get(1).equals("X")) && (boardStates.get(2).equals("X"))) {
                 gameOver = true;
-                player1Score++;
+                ++player1Score;
             } else if ((boardStates.get(3).equals("X")) &&
                     (boardStates.get(6).equals("X"))) {
                 gameOver = true;
@@ -122,7 +123,7 @@ public class TeamMVCServlet extends HttpServlet {
             draws++;
             beanData.setDraws(draws);
             boardStates.clear();
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 9; ++i) {
                 boardStates.add("_");
                 beanData.setBoardStates(boardStates);
             }
@@ -136,7 +137,7 @@ public class TeamMVCServlet extends HttpServlet {
             beanData.setPlayer2Score(player2Score);
             gameOver = false;
             boardStates.clear();
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 9; ++i) {
                 boardStates.add("_");
                 beanData.setBoardStates(boardStates);
             }
