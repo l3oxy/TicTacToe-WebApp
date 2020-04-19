@@ -33,7 +33,7 @@ table.score_board th {
     padding-right: 0.5em;
 }
 
-table a, a:link, a:visited, a:hover, a:active {
+a, a:link, a:visited, a:hover, a:active {
     text-decoration: none !important;
     color: black;
     border: 0px solid rgba(0, 0, 0, 0);
