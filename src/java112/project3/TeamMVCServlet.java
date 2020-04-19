@@ -344,8 +344,10 @@ public class TeamMVCServlet extends HttpServlet {
                 bean.setGameOver(true);
             }
 
-            // Checking for Draw or Win, changing the turn string, and setting board
-            if (!bean.isGameOver() && !bean.getBoard().contains(bean.getIconEmpty())) {
+            // Checking for Draw or Win, changing the turn string,
+            // and setting board
+            if (!bean.isGameOver() &&
+                    !bean.getBoard().contains(bean.getIconEmpty())) {
                 // Draw detected.
                 bean.incrementDraws();
                 bean.resetBoard();
@@ -355,8 +357,10 @@ public class TeamMVCServlet extends HttpServlet {
                 // Victory detected.
                 bean.setGameOver(false);
                 bean.resetBoard();
-                bean.setTurnString("Game Over! " + getIconForWhoseTurnItIsNot() + 
-			" Wins! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
+                bean.setTurnString("Game Over! " +
+                        getIconForWhoseTurnItIsNot() +
+                        " Wins! Starting new game. " +
+                        getIconForWhoseTurnItIs() + "'s Turn");
             } else {
                 // Neither a victory nor a draw detected. Play on.
                 bean.setTurnString(getIconForWhoseTurnItIs() + "'s Turn");
