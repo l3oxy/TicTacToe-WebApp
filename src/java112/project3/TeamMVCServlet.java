@@ -72,12 +72,39 @@ public class TeamMVCServlet extends HttpServlet {
     }
 
     /**
+     * Player attempted to put their icon in a cell. Check if that move is valid, if so, do it.
+     * @param cell
+     */
+    private void processTurnIfValid(List<String> boardStates, String cell) {
+        int cellSelected = -1;
+
+        // Getting the selected cell
+        if (cell != null) {
+            cellSelected = Integer.parseInt(cell);
+        }
+
+        // Changing the board state based on the selected cell
+        if (0 <= cellSelected && cellSelected <= (bean.getCellQuantity() - 1)) {  // if spot is valid
+            if (boardStates.get(cellSelected).equals(bean.getIconEmpty())) {  // If spot is not already taken
+                if (bean.isPlayer1Turn()) {
+                    boardStates.set(cellSelected, bean.getIconPlayer2());
+                } else {
+                    boardStates.set(cellSelected, bean.getIconPlayer1());
+                }
+            } else {
+                // Change whose turn it is.
+                bean.changeTurn();
+            }
+        }
+    }
+
+    /**
      * Inspects a vertical column on the board for a victory.
      * @param boardStates the board.
      * @param column the index on the board where the column to inspect begins (the top part of the column).
      * @return the icon the won, or EMPTY if nobody won on the specified row.
      */
-    private String checkColumn(List<String> boardStates, int column) {
+    private String checkThisColumn(List<String> boardStates, int column) {
         // Get the icon at the top of the column.
         String topCellOfColumn = boardStates.get(column);
 
@@ -111,7 +138,7 @@ public class TeamMVCServlet extends HttpServlet {
         // For each column ...
         for (int column = 0; column < bean.getBoardWidth(); ++column) {
 
-            rowVictor = checkColumn(boardStates, column);
+            rowVictor = checkThisColumn(boardStates, column);
 
             if (!rowVictor.equals(bean.getIconEmpty())) {
                 return rowVictor;
@@ -128,7 +155,7 @@ public class TeamMVCServlet extends HttpServlet {
      * @param row the index on the board where the row to inspect begins (the left-most part).
      * @return the icon that won, or EMPTY if nobody won on the specified row.
      */
-    private String checkRow(List<String> boardStates, int row) {
+    private String checkThisRow(List<String> boardStates, int row) {
         // In the current row, in the cell that is most left, the icon inside it.
         String leftMostCellInRow = boardStates.get(row);
 
@@ -161,7 +188,7 @@ public class TeamMVCServlet extends HttpServlet {
         // For each row...
         for (int row = 0; row < (bean.getCellQuantity() - 1); row += bean.getBoardWidth()) {
 
-            rowVictor = checkRow(boardStates, row);
+            rowVictor = checkThisRow(boardStates, row);
 
             if (!rowVictor.equals(bean.getIconEmpty())) {
                 return rowVictor;
@@ -236,42 +263,42 @@ public class TeamMVCServlet extends HttpServlet {
     }
 
     /**
+     * Takes an icon, finds the player that has it, and increments their score.
+     * @param icon The icon whose player's score shall be incremented by this method.
+     */
+    private void incrementScoreOfThisIconsPlayer(String icon) {
+        if (icon.equals(bean.getIconPlayer1())) {
+            bean.incrementScorePlayer1();
+        } else if (icon.equals(bean.getIconPlayer2())) {
+            bean.incrementScorePlayer2();
+        }
+    }
+
+    /**
      * Checks the board for if any wins/victory conditions have taken place.
      * @param boardStates The game board.
      * @return The winner (if any), else the empty icon.
      */
     private String checkForWins(List<String> boardStates) {
-        String winner;
+        String winnerOrEmpty;
 
         // Checking for a vertical win
-        winner = checkForVerticalWins(boardStates);
-        if (winner.equals(bean.getIconPlayer1())) {
-            bean.incrementScorePlayer1();
-        } else if (winner.equals(bean.getIconPlayer2())) {
-            bean.incrementScorePlayer2();
-        }
+        winnerOrEmpty = checkForVerticalWins(boardStates);
+        incrementScoreOfThisIconsPlayer(winnerOrEmpty);
 
         // Checking for a horizontal win
-        if (winner.equals(bean.getIconEmpty())) {
-            winner = checkForHorizontalWins(boardStates);
-            if (winner.equals(bean.getIconPlayer1())) {
-                bean.incrementScorePlayer1();
-            } else if (winner.equals(bean.getIconPlayer2())) {
-                bean.incrementScorePlayer2();
-            }
+        if (winnerOrEmpty.equals(bean.getIconEmpty())) {
+            winnerOrEmpty = checkForHorizontalWins(boardStates);
+            incrementScoreOfThisIconsPlayer(winnerOrEmpty);
         }
 
         // Checking for a diagonal win
-        if (winner.equals(bean.getIconEmpty())) {
-            winner = checkForDiagonalWins(boardStates);
-            if (winner.equals(bean.getIconPlayer1())) {
-                bean.incrementScorePlayer1();
-            } else if (winner.equals(bean.getIconPlayer2())) {
-                bean.incrementScorePlayer2();
-            }
+        if (winnerOrEmpty.equals(bean.getIconEmpty())) {
+            winnerOrEmpty = checkForDiagonalWins(boardStates);
+            incrementScoreOfThisIconsPlayer(winnerOrEmpty);
         }
 
-        return winner;
+        return winnerOrEmpty;
     }
 
     /**
@@ -286,27 +313,9 @@ public class TeamMVCServlet extends HttpServlet {
             throws ServletException, IOException {
 
         List<String> boardStates = bean.getBoardStates();
-        int cellSelected = -1;
-
-        // Getting the selected cell
-        if (request.getParameter("cell") != null) {
-            cellSelected = Integer.parseInt(request.getParameter("cell"));
-        }
 
         // Changing the board state based on the selected cell
-        if (0 <= cellSelected && cellSelected <= 8) {  // if spot is valid
-            if (boardStates.get(cellSelected).equals(bean.getIconEmpty())) {  // If spot is not already taken
-                if (bean.isPlayer1Turn()) {
-                    boardStates.set(cellSelected, bean.getIconPlayer2());
-                } else {
-                    boardStates.set(cellSelected, bean.getIconPlayer1());
-                }
-            } else {
-                // Change whose turn it is.
-                bean.changeTurn();
-            }
-        }
-
+        processTurnIfValid(boardStates, request.getParameter("cell"));
 
         // Checking for a wins
         String winner = checkForWins(boardStates);
@@ -316,14 +325,17 @@ public class TeamMVCServlet extends HttpServlet {
 
         // Checking for Draw or Win, changing the turn string, and setting board
         if (!bean.isGameOver() && !boardStates.contains(bean.getIconEmpty())) {
+            // Draw detected.
             bean.incrementDraws();
             boardStates = getNewBoardStates();
             bean.setTurnString("Game Over! Draw! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
         } else if (bean.isGameOver()) {
+            // Victory detected.
             bean.setGameOver(false);
             boardStates = getNewBoardStates();
             bean.setTurnString("Game Over! " + getIconForWhoseTurnItIsNot() + " Wins! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
         } else {
+            // Neither a victory nor a draw detected. Play on.
             bean.setTurnString(getIconForWhoseTurnItIs() + "'s Turn");
         }
 
