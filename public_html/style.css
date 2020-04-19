@@ -13,6 +13,12 @@ table, tbody, td {
     border-width: 1em;
 }
 
+table a, a:link, a:visited, a:hover, a:active {
+    text-decoration: none !important;
+    color: black;
+    border: 0px solid black;
+}
+
 td {
     width: 5em;
     height: 5em;
