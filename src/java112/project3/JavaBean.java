@@ -36,6 +36,11 @@ public class JavaBean {
     private List<String> board;
 
     /**
+     * The icon for an empty/un-claimed spot on the board.
+     */
+    private String iconEmpty;
+
+    /**
      * The icon for player 1.
      */
     private String iconPlayer1;
@@ -44,22 +49,6 @@ public class JavaBean {
      * The icon for player 2.
      */
     private String iconPlayer2;
-
-    /**
-     * The icon for an empty/un-claimed spot on the board.
-     */
-    private String iconEmpty;
-
-    /**
-     * Marks who's turn it is. If true, it's player1's turn. If false, it's
-     * player2's turn
-     */
-    private boolean player1Turn;
-
-    /**
-     * Describes if the game is over.
-     */
-    private boolean gameOver;
 
     /**
      * Number of games that player1 has won.
@@ -75,6 +64,17 @@ public class JavaBean {
      * Number of times that the game ended in a draw.
      */
     private int draws;
+
+    /**
+     * Marks who's turn it is. If true, it's player1's turn. If false, it's
+     * player2's turn
+     */
+    private boolean player1Turn;
+
+    /**
+     * Describes if the game is over.
+     */
+    private boolean gameOver;
 
     /**
      * Words describing who's turn it is.
