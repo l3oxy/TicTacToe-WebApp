@@ -3,12 +3,13 @@
 <%@ include file="head.jsp" %>
 
 <body>
-    <h3>Team MVC Project</h3>
-
-    <h4>${beanData.turnString}</h4>
-    <p>X's Score = ${beanData.player1Score}</p>
-    <p>O's Score = ${beanData.player2Score}</p>
-    <p>Draws = ${beanData.draws}</p>
+    <h3 style="text-align:center">Team MVC Project</h3>
+    <p style="text-align:center">
+        || X's Score = ${beanData.player1Score} ||
+        O's Score = ${beanData.player2Score} ||
+        Draws = ${beanData.draws} ||
+    </p>
+    <h4 style="text-align:center">${beanData.turnString}</h4>
 
     <%@ include file="table.jsp" %>
 

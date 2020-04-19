@@ -241,6 +241,8 @@ public class TeamMVCServlet extends HttpServlet {
                 } else {
                     boardStates.set(cellSelected, X);
                 }
+            } else {
+                player1Turn = !player1Turn;
             }
         }
 
