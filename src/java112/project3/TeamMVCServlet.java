@@ -54,6 +54,8 @@ public class TeamMVCServlet extends HttpServlet {
         int draws = beanData.getDraws();
         int cellSelected = -1;
         String turnString;
+        final String X = "X";
+        final String O = "O";
 
         // Getting the selected cell
         if (request.getParameter("cell") != null) {
@@ -64,9 +66,9 @@ public class TeamMVCServlet extends HttpServlet {
         if (0 <= cellSelected && cellSelected <= 8) {  // if spot is valid
             if (boardStates.get(cellSelected).equals("_")) {  // If spot is not already taken
                 if (player1Turn) {
-                    boardStates.set(cellSelected, "O");
+                    boardStates.set(cellSelected, O);
                 } else {
-                    boardStates.set(cellSelected, "X");
+                    boardStates.set(cellSelected, X);
                 }
             }
         }
@@ -74,57 +76,57 @@ public class TeamMVCServlet extends HttpServlet {
 
         // Checking for a win
         // Checking for a win involving the center
-        if (boardStates.get(4).equals("X")) {
+        if (boardStates.get(4).equals(X)) {
             for (int i = 0; i < 4; i++) {
-                if ((boardStates.get(i).equals("X")) &&
-                        (boardStates.get(i + 2 * (4 - i)).equals("X"))) {
+                if ((boardStates.get(i).equals(X)) &&
+                        (boardStates.get(i + 2 * (4 - i)).equals(X))) {
                     gameOver = true;
                     ++player1Score;
                 }
             }
-        } else if (boardStates.get(4).equals("O")) {
+        } else if (boardStates.get(4).equals(O)) {
             for (int i = 0; i < 4; i++) {
-                if ((boardStates.get(i).equals("O")) &&
-                        (boardStates.get(i + 2 * (4 - i)).equals("O"))) {
+                if ((boardStates.get(i).equals(O)) &&
+                        (boardStates.get(i + 2 * (4 - i)).equals(O))) {
                     gameOver = true;
                     ++player2Score;
                 }
             }
         }
         // Checking for a win involving just sides
-        if (boardStates.get(0).equals("X")) {
-            if ((boardStates.get(1).equals("X")) && (boardStates.get(2).equals("X"))) {
+        if (boardStates.get(0).equals(X)) {
+            if ((boardStates.get(1).equals(X)) && (boardStates.get(2).equals(X))) {
                 gameOver = true;
                 ++player1Score;
-            } else if ((boardStates.get(3).equals("X")) &&
-                    (boardStates.get(6).equals("X"))) {
-                gameOver = true;
-                ++player1Score;
-            }
-        } else if (boardStates.get(8).equals("X")) {
-            if ((boardStates.get(5).equals("X")) && (boardStates.get(2).equals("X"))) {
-                gameOver = true;
-                ++player1Score;
-            } else if ((boardStates.get(7).equals("X")) &&
-                    (boardStates.get(6).equals("X"))) {
+            } else if ((boardStates.get(3).equals(X)) &&
+                    (boardStates.get(6).equals(X))) {
                 gameOver = true;
                 ++player1Score;
             }
-        } else if (boardStates.get(0).equals("O")) {
-            if ((boardStates.get(1).equals("O")) && (boardStates.get(2).equals("O"))) {
+        } else if (boardStates.get(8).equals(X)) {
+            if ((boardStates.get(5).equals(X)) && (boardStates.get(2).equals(X))) {
+                gameOver = true;
+                ++player1Score;
+            } else if ((boardStates.get(7).equals(X)) &&
+                    (boardStates.get(6).equals(X))) {
+                gameOver = true;
+                ++player1Score;
+            }
+        } else if (boardStates.get(0).equals(O)) {
+            if ((boardStates.get(1).equals(O)) && (boardStates.get(2).equals(O))) {
                 gameOver = true;
                 ++player2Score;
-            } else if ((boardStates.get(3).equals("O")) &&
-                    (boardStates.get(6).equals("O"))) {
+            } else if ((boardStates.get(3).equals(O)) &&
+                    (boardStates.get(6).equals(O))) {
                 gameOver = true;
                 ++player2Score;
             }
-        } else if (boardStates.get(8).equals("O")) {
-            if ((boardStates.get(5).equals("O")) && (boardStates.get(2).equals("O"))) {
+        } else if (boardStates.get(8).equals(O)) {
+            if ((boardStates.get(5).equals(O)) && (boardStates.get(2).equals(O))) {
                 gameOver = true;
                 ++player2Score;
-            } else if ((boardStates.get(7).equals("O")) &&
-                    (boardStates.get(6).equals("O"))) {
+            } else if ((boardStates.get(7).equals(O)) &&
+                    (boardStates.get(6).equals(O))) {
                 gameOver = true;
                 ++player2Score;
             }
@@ -136,9 +138,9 @@ public class TeamMVCServlet extends HttpServlet {
             beanData.setDraws(draws);
             boardStates = getNewBoardStates();
             if (player1Turn) {
-                turnString = "Game Over! Draw! Starting new game. X's Turn";
+                turnString = "Game Over! Draw! Starting new game. " + X + "'s Turn";
             } else {
-                turnString = "Game Over! Draw! Starting new game. O's Turn";
+                turnString = "Game Over! Draw! Starting new game. " + O + "'s Turn";
             }
         } else if (gameOver) {
             beanData.setPlayer1Score(player1Score);
@@ -146,14 +148,14 @@ public class TeamMVCServlet extends HttpServlet {
             gameOver = false;
             boardStates = getNewBoardStates();
             if (player1Turn) {
-                turnString = "Game Over! O Wins! Starting new game. X's Turn";
+                turnString = "Game Over! O Wins! Starting new game. " + X + "'s Turn";
             } else {
-                turnString = "Game Over! X Wins! Starting new game. O's Turn";
+                turnString = "Game Over! X Wins! Starting new game. " + O + "'s Turn";
             }
         } else if (player1Turn) {
-            turnString = "X's Turn";
+            turnString = X + "'s Turn";
         } else {
-            turnString = "O's Turn";
+            turnString = O + "'s Turn";
         }
 
         // Setting bean data
