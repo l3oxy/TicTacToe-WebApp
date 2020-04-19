@@ -17,17 +17,19 @@ import javax.servlet.annotation.*;
 )
 public class TeamMVCServlet extends HttpServlet {
 
-    private JavaBean beanData;
-    private final String X = "X";  // Icon for Player1.
-    private final String O = "O";  // Icon for Player2.
-    private final String EMPTY = "_";  // Icon for an unused spot.
-    private final int boardHeight = 3;  // I.e. quantity of board rows.
-    private final int boardWidth = 3;  // I.e. quantity of board columns
-    // NOTE: if boardHeight and boardWidth are not identical, the diagonal victory detection will be non-perfect.
-    private final int quantityOfCells = boardHeight * boardWidth;
+    private JavaBean bean;
 
+    /**
+     * Sets up the game.
+     * @throws ServletException Servlet Exception.
+     */
     public void init() throws ServletException {
-        beanData = new JavaBean();
+        bean = new JavaBean();
+        bean.setBoardHeight(3);
+        bean.setBoardWidth(3);
+        bean.setIconPlayer1("X");
+        bean.setIconPlayer2("O");
+        bean.setIconEmpty("_");
     }
 
     /**
@@ -37,8 +39,8 @@ public class TeamMVCServlet extends HttpServlet {
     private List<String> getNewBoardStates() {
         List<String> boardStates = new ArrayList<String>();
 
-        for (int i = 0; i < quantityOfCells; ++i) {
-            boardStates.add(EMPTY);
+        for (int i = 0; i < bean.getCellQuantity(); ++i) {
+            boardStates.add(bean.getIconEmpty());
         }
 
         return boardStates;
@@ -55,13 +57,13 @@ public class TeamMVCServlet extends HttpServlet {
         String topCellOfColumn = boardStates.get(column);
 
         // If the top cell of this column is null or empty, then go to the next column.
-        if (topCellOfColumn != null && !topCellOfColumn.equals(EMPTY)) {
+        if (topCellOfColumn != null && !topCellOfColumn.equals(bean.getIconEmpty())) {
 
             // Regarding the top-most cell in this column, check if all other cells in this column are equal to said top-most cell.
-            for (int currentCell = (column + boardWidth); currentCell < quantityOfCells; currentCell += boardWidth) {
+            for (int currentCell = (column + bean.getBoardWidth()); currentCell < bean.getCellQuantity(); currentCell += bean.getBoardWidth()) {
                 // Compare this cell to the top cell of this column.
                 if (!boardStates.get(currentCell).equals(topCellOfColumn)) {
-                    return EMPTY;
+                    return bean.getIconEmpty();
                 }
             }
 
@@ -70,7 +72,7 @@ public class TeamMVCServlet extends HttpServlet {
         }
 
         // No victory detected in this column.
-        return EMPTY;
+        return bean.getIconEmpty();
     }
 
     /**
@@ -82,17 +84,17 @@ public class TeamMVCServlet extends HttpServlet {
         String rowVictor;
 
         // For each column ...
-        for (int column = 0; column < boardWidth; ++column) {
+        for (int column = 0; column < bean.getBoardWidth(); ++column) {
 
             rowVictor = checkColumn(boardStates, column);
 
-            if (!rowVictor.equals(EMPTY)) {
+            if (!rowVictor.equals(bean.getIconEmpty())) {
                 return rowVictor;
             }
         }
 
         // No vertical victories detected.
-        return EMPTY;
+        return bean.getIconEmpty();
     }
 
     /**
@@ -106,13 +108,13 @@ public class TeamMVCServlet extends HttpServlet {
         String leftMostCellInRow = boardStates.get(row);
 
         // In the current row, if left-most cell is not empty/null, then this row could have a victory.
-        if (leftMostCellInRow != null && !leftMostCellInRow.equals(EMPTY)) {
+        if (leftMostCellInRow != null && !leftMostCellInRow.equals(bean.getIconEmpty())) {
 
             // Regarding the left-most cell in this row, check if all other cells in this row are equal to said left-most cell.
-            for (int cellInRow = row; cellInRow < (row + boardWidth); ++cellInRow) {
+            for (int cellInRow = row; cellInRow < (row + bean.getBoardWidth()); ++cellInRow) {
                 if (!boardStates.get(cellInRow).equals(leftMostCellInRow)) {
                     // Cells are not identical.
-                    return EMPTY;
+                    return bean.getIconEmpty();
                 }
             }
 
@@ -121,7 +123,7 @@ public class TeamMVCServlet extends HttpServlet {
         }
 
         // No victory detected in this row.
-        return EMPTY;
+        return bean.getIconEmpty();
     }
 
     /**
@@ -132,17 +134,17 @@ public class TeamMVCServlet extends HttpServlet {
         String rowVictor;
 
         // For each row...
-        for (int row = 0; row < (quantityOfCells - 1); row += boardWidth) {
+        for (int row = 0; row < (bean.getCellQuantity() - 1); row += bean.getBoardWidth()) {
 
             rowVictor = checkRow(boardStates, row);
 
-            if (!rowVictor.equals(EMPTY)) {
+            if (!rowVictor.equals(bean.getIconEmpty())) {
                 return rowVictor;
             }
         }
 
         // No horizontal victories detected.
-        return EMPTY;
+        return bean.getIconEmpty();
     }
 
     /**
@@ -153,15 +155,15 @@ public class TeamMVCServlet extends HttpServlet {
         String topMostCellInDiagonal = boardStates.get(0);  // In the current diagonal, in the cell that is nearest the top/start, the icon inside it.
 
         // If the top-most cell is empty, then this diagonal does not have a victory.
-        if (topMostCellInDiagonal == null || topMostCellInDiagonal.equals(EMPTY)) {
-            return EMPTY;
+        if (topMostCellInDiagonal == null || topMostCellInDiagonal.equals(bean.getIconEmpty())) {
+            return bean.getIconEmpty();
         }
 
         // Regarding the top-most cell in this diagonal, check if all other cells in this diagonal are equal to said top-most cell.
-        for (int currentCell = (boardWidth + 1); currentCell < quantityOfCells; currentCell += (boardWidth + 1)) {
+        for (int currentCell = (bean.getBoardWidth() + 1); currentCell < bean.getCellQuantity(); currentCell += (bean.getBoardWidth() + 1)) {
             if (!boardStates.get(currentCell).equals(topMostCellInDiagonal)) {
                 // No diagonal victories detected.
-                return EMPTY;
+                return bean.getIconEmpty();
             }
         }
 
@@ -174,18 +176,18 @@ public class TeamMVCServlet extends HttpServlet {
      * @return The icon/symbol that has won, or the EMPTY icon if no win detected.
      */
     private String checkForDiagonalTopRightToBottomLeftWin(List<String> boardStates) {
-        String topMostCellInDiagonal = boardStates.get(boardWidth - 1);  // In the current diagonal, in the cell that is nearest the top/start, the icon inside it.
+        String topMostCellInDiagonal = boardStates.get(bean.getBoardWidth() - 1);  // In the current diagonal, in the cell that is nearest the top/start, the icon inside it.
 
         // If the top-most cell is empty, then this diagonal does not have a victory.
-        if (topMostCellInDiagonal == null || topMostCellInDiagonal.equals(EMPTY)) {
-            return EMPTY;
+        if (topMostCellInDiagonal == null || topMostCellInDiagonal.equals(bean.getIconEmpty())) {
+            return bean.getIconEmpty();
         }
 
         // Regarding the top-most cell in this diagonal, check if all other cells in this diagonal are equal to said top-most cell.
-        for (int currentCell = ((boardWidth * 2) - 2); currentCell < (quantityOfCells - 1); currentCell += (boardWidth - 1)) {
+        for (int currentCell = ((bean.getBoardWidth() * 2) - 2); currentCell < (bean.getCellQuantity() - 1); currentCell += (bean.getBoardWidth() - 1)) {
             if (!boardStates.get(currentCell).equals(topMostCellInDiagonal)) {
                 // No diagonal victories detected.
-                return EMPTY;
+                return bean.getIconEmpty();
             }
         }
 
@@ -201,11 +203,50 @@ public class TeamMVCServlet extends HttpServlet {
         String resultOfFirstDiagonalVictoryCheck;
 
         resultOfFirstDiagonalVictoryCheck = checkForDiagonalTopLeftToBottomRightWin(boardStates);
-        if (!resultOfFirstDiagonalVictoryCheck.equals(EMPTY)) {
+        if (!resultOfFirstDiagonalVictoryCheck.equals(bean.getIconEmpty())) {
             return resultOfFirstDiagonalVictoryCheck;
         } else {
             return checkForDiagonalTopRightToBottomLeftWin(boardStates);
         }
+    }
+
+    /**
+     * Checks the board for if any wins/victory conditions have taken place.
+     * @param boardStates The game board.
+     * @return The winner (if any), else the empty icon.
+     */
+    private String checkForWins(List<String> boardStates) {
+        String winner;
+
+        // Checking for a vertical win
+        winner = checkForVerticalWins(boardStates);
+        if (winner.equals(bean.getIconPlayer1())) {
+            bean.incrementScorePlayer1();
+        } else if (winner.equals(bean.getIconPlayer2())) {
+            bean.incrementScorePlayer2();
+        }
+
+        // Checking for a horizontal win
+        if (winner.equals(bean.getIconEmpty())) {
+            winner = checkForHorizontalWins(boardStates);
+            if (winner.equals(bean.getIconPlayer1())) {
+                bean.incrementScorePlayer1();
+            } else if (winner.equals(bean.getIconPlayer2())) {
+                bean.incrementScorePlayer2();
+            }
+        }
+
+        // Checking for a diagonal win
+        if (winner.equals(bean.getIconEmpty())) {
+            winner = checkForDiagonalWins(boardStates);
+            if (winner.equals(bean.getIconPlayer1())) {
+                bean.incrementScorePlayer1();
+            } else if (winner.equals(bean.getIconPlayer2())) {
+                bean.incrementScorePlayer2();
+            }
+        }
+
+        return winner;
     }
 
     /**
@@ -219,12 +260,7 @@ public class TeamMVCServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<String> boardStates = beanData.getBoardStates();
-        boolean player1Turn = beanData.isPlayer1Turn();
-        boolean gameOver = beanData.isGameOver();
-        int player1Score = beanData.getPlayer1Score();
-        int player2Score = beanData.getPlayer2Score();
-        int draws = beanData.getDraws();
+        List<String> boardStates = bean.getBoardStates();
         int cellSelected = -1;
         String turnString;
 
@@ -235,91 +271,53 @@ public class TeamMVCServlet extends HttpServlet {
 
         // Changing the board state based on the selected cell
         if (0 <= cellSelected && cellSelected <= 8) {  // if spot is valid
-            if (boardStates.get(cellSelected).equals(EMPTY)) {  // If spot is not already taken
-                if (player1Turn) {
-                    boardStates.set(cellSelected, O);
+            if (boardStates.get(cellSelected).equals(bean.getIconEmpty())) {  // If spot is not already taken
+                if (bean.isPlayer1Turn()) {
+                    boardStates.set(cellSelected, bean.getIconPlayer2());
                 } else {
-                    boardStates.set(cellSelected, X);
+                    boardStates.set(cellSelected, bean.getIconPlayer1());
                 }
             } else {
-                player1Turn = !player1Turn;
+                // Change whose turn it is.
+                bean.changeTurn();
             }
         }
 
 
-        // Checking for a win
-        // Checking for a vertical win
-        switch (checkForVerticalWins(boardStates)) {
-            case X:
-                gameOver = true;
-                ++player1Score;
-                break;
-            case O:
-                gameOver = true;
-                ++player2Score;
-                break;
-            case EMPTY:
-                break;
-        }
-        // Checking for a horizontal win
-        switch (checkForHorizontalWins(boardStates)) {
-            case X:
-                gameOver = true;
-                ++player1Score;
-                break;
-            case O:
-                gameOver = true;
-                ++player2Score;
-                break;
-            case EMPTY:
-                break;
-        }
-        // Checking for a diagonal win
-        switch (checkForDiagonalWins(boardStates)) {
-            case X:
-                gameOver = true;
-                ++player1Score;
-                break;
-            case O:
-                gameOver = true;
-                ++player2Score;
-                break;
-            case EMPTY:
-                break;
+        // Checking for a wins
+        String winner = checkForWins(boardStates);
+        if (!winner.equals(bean.getIconEmpty())) {
+            bean.setGameOver(true);
         }
 
         // Checking for Draw or Win, changing the turn string, and setting board
-        if (!gameOver && !boardStates.contains("_")) {
-            ++draws;
-            beanData.setDraws(draws);
+        if (!bean.isGameOver() && !boardStates.contains(bean.getIconEmpty())) {
+            bean.incrementDraws();
             boardStates = getNewBoardStates();
-            if (player1Turn) {
-                turnString = "Game Over! Draw! Starting new game. " + X + "'s Turn";
+            if (bean.isPlayer1Turn()) {
+                turnString = "Game Over! Draw! Starting new game. " + bean.getIconPlayer1() + "'s Turn";
             } else {
-                turnString = "Game Over! Draw! Starting new game. " + O + "'s Turn";
+                turnString = "Game Over! Draw! Starting new game. " + bean.getIconPlayer2() + "'s Turn";
             }
-        } else if (gameOver) {
-            beanData.setPlayer1Score(player1Score);
-            beanData.setPlayer2Score(player2Score);
-            gameOver = false;
+        } else if (bean.isGameOver()) {
+            bean.setGameOver(false);
             boardStates = getNewBoardStates();
-            if (player1Turn) {
-                turnString = "Game Over! " + O + " Wins! Starting new game. " + X + "'s Turn";
+            if (bean.isPlayer1Turn()) {
+                turnString = "Game Over! " + bean.getIconPlayer2() + " Wins! Starting new game. " + bean.getIconPlayer1() + "'s Turn";
             } else {
-                turnString = "Game Over! " + X + " Wins! Starting new game. " + O + "'s Turn";
+                turnString = "Game Over! " + bean.getIconPlayer1() + " Wins! Starting new game. " + bean.getIconPlayer2() + "'s Turn";
             }
-        } else if (player1Turn) {
-            turnString = X + "'s Turn";
+        } else if (bean.isPlayer1Turn()) {
+            turnString = bean.getIconPlayer1() + "'s Turn";
         } else {
-            turnString = O + "'s Turn";
+            turnString = bean.getIconPlayer2() + "'s Turn";
         }
 
         // Setting bean data
-        beanData.setTurnString(turnString);
-        beanData.setBoardStates(boardStates);
-        beanData.setGameOver(gameOver);
+        bean.setTurnString(turnString);
+        bean.setBoardStates(boardStates);
 
-        request.setAttribute("beanData", beanData);
+        request.setAttribute("beanData", bean);
 
         // Forwarding to the JSP.
         String url = "/teamMVC.jsp";
@@ -328,7 +326,6 @@ public class TeamMVCServlet extends HttpServlet {
         dispatcher.forward(request, response);
 
         // Changing the turn
-        player1Turn = !player1Turn;
-        beanData.setPlayer1Turn(player1Turn);
+        bean.changeTurn();
     }
 }
