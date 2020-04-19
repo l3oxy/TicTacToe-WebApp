@@ -285,37 +285,46 @@ public class TeamMVCServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Changing the board state based on the selected cell
-        processTurnIfValid(request.getParameter("cell"));
+        String urlToForwardTo;
 
-        // Checking for a win
-        String winner = checkForWins();
-        if (!winner.equals(bean.getIconEmpty())) {
-            bean.setGameOver(true);
-        }
-
-        // Checking for Draw or Win, changing the turn string, and setting board
-        if (!bean.isGameOver() && !bean.getBoard().contains(bean.getIconEmpty())) {
-            // Draw detected.
-            bean.incrementDraws();
-            bean.resetBoard();
-            bean.setTurnString("Game Over! Draw! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
-        } else if (bean.isGameOver()) {
-            // Victory detected.
-            bean.setGameOver(false);
-            bean.resetBoard();
-            bean.setTurnString("Game Over! " + getIconForWhoseTurnItIsNot() + " Wins! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
+        if (request.getParameter("details") != null) {
+            // The details page was requested.
+            urlToForwardTo = "/details.jsp";
         } else {
-            // Neither a victory nor a draw detected. Play on.
-            bean.setTurnString(getIconForWhoseTurnItIs() + "'s Turn");
+            // The details page was not requested, so show the game page.
+            urlToForwardTo = "/teamMVC.jsp";
+
+            // Changing the board state based on the selected cell
+            processTurnIfValid(request.getParameter("cell"));
+
+            // Checking for a win
+            String winner = checkForWins();
+            if (!winner.equals(bean.getIconEmpty())) {
+                bean.setGameOver(true);
+            }
+
+            // Checking for Draw or Win, changing the turn string, and setting board
+            if (!bean.isGameOver() && !bean.getBoard().contains(bean.getIconEmpty())) {
+                // Draw detected.
+                bean.incrementDraws();
+                bean.resetBoard();
+                bean.setTurnString("Game Over! Draw! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
+            } else if (bean.isGameOver()) {
+                // Victory detected.
+                bean.setGameOver(false);
+                bean.resetBoard();
+                bean.setTurnString("Game Over! " + getIconForWhoseTurnItIsNot() + " Wins! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
+            } else {
+                // Neither a victory nor a draw detected. Play on.
+                bean.setTurnString(getIconForWhoseTurnItIs() + "'s Turn");
+            }
         }
 
         request.setAttribute("beanData", bean);
 
         // Forwarding to the JSP.
-        String url = "/teamMVC.jsp";
         RequestDispatcher dispatcher =
-                getServletContext().getRequestDispatcher(url);
+                getServletContext().getRequestDispatcher(urlToForwardTo);
         dispatcher.forward(request, response);
     }
 }

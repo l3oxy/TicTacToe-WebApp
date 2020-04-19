@@ -50,3 +50,18 @@ table.game_board td {
     width: 100%;
     font-size: 5em;
 }
+
+.title {
+    margin-bottom: 0;
+}
+
+.subtitle {
+    font-size: 0.8em;
+}
+
+.title_and_subtitle {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+}
