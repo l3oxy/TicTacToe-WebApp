@@ -73,27 +73,21 @@ public class TeamMVCServlet extends HttpServlet {
 
     /**
      * Player attempted to put their icon in a cell. Check if that move is valid, if so, do it.
-     * @param cell
+     * @param boardStates The game board.
+     * @param cell The cell/spot that the player requested to take/claim.
      */
     private void processTurnIfValid(List<String> boardStates, String cell) {
-        int cellSelected = -1;
-
-        // Getting the selected cell
         if (cell != null) {
-            cellSelected = Integer.parseInt(cell);
-        }
+            int cellSelected = Integer.parseInt(cell);
 
-        // Changing the board state based on the selected cell
-        if (0 <= cellSelected && cellSelected <= (bean.getCellQuantity() - 1)) {  // if spot is valid
-            if (boardStates.get(cellSelected).equals(bean.getIconEmpty())) {  // If spot is not already taken
-                if (bean.isPlayer1Turn()) {
-                    boardStates.set(cellSelected, bean.getIconPlayer2());
-                } else {
-                    boardStates.set(cellSelected, bean.getIconPlayer1());
+            // If the selected cell exists on the board...
+            if (0 <= cellSelected && cellSelected <= (bean.getCellQuantity() - 1)) {
+                // If the cell is empty/unclaimed...
+                if (boardStates.get(cellSelected).equals(bean.getIconEmpty())) {
+                    // Give it to the player, and change turns.
+                    boardStates.set(cellSelected, getIconForWhoseTurnItIs());
+                    bean.changeTurn();
                 }
-            } else {
-                // Change whose turn it is.
-                bean.changeTurn();
             }
         }
     }
@@ -317,7 +311,7 @@ public class TeamMVCServlet extends HttpServlet {
         // Changing the board state based on the selected cell
         processTurnIfValid(boardStates, request.getParameter("cell"));
 
-        // Checking for a wins
+        // Checking for a win
         String winner = checkForWins(boardStates);
         if (!winner.equals(bean.getIconEmpty())) {
             bean.setGameOver(true);
@@ -349,8 +343,5 @@ public class TeamMVCServlet extends HttpServlet {
         RequestDispatcher dispatcher =
                 getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
-
-        // Changing the turn
-        bean.changeTurn();
     }
 }
