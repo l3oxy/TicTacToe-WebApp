@@ -31,7 +31,7 @@ public class JavaBean {
      *   ――+―――+―――
      *   6 | 7 | 8
      */
-    private List<String> boardStates;
+    private List<String> board;
 
     /**
      * The icon for player 1.
@@ -83,9 +83,9 @@ public class JavaBean {
      * Constructor that sets initial values for the variables.
      */
     public JavaBean() {
-        boardStates = new ArrayList<String>();
+        board = new ArrayList<String>();
         for (int i = 0; i < 9; ++i) {
-            boardStates.add("_");
+            board.add("_");
         }
         player1Turn = true;
         gameOver = false;
@@ -122,14 +122,45 @@ public class JavaBean {
         return (getBoardHeight() * getBoardWidth());
     }
 
-    public List<String> getBoardStates() {
-        return boardStates;
+    public List<String> getBoard() {
+        return board;
     }
 
-    public void setBoardStates(List<String> boardStates) {
-        if (boardStates != null) {
-            this.boardStates = boardStates;
+    public void setBoard(List<String> board) {
+        if (board != null) {
+            this.board = board;
         }
+    }
+
+    /**
+     * Gets a cell/spot from the board.
+     * @param index On the board, the index of the cell to get.
+     * @return On the board, at the provided index, the value at said index.
+     */
+    public String getBoardCell(int index) {
+        return this.board.get(index);
+    }
+
+    /**
+     * Sets a cell/spot on the board.
+     * @param index On the board, the index of the cell to set.
+     * @param newValue On the board, at the provided index, the new value to put at said index.
+     */
+    public void setBoardCell(int index, String newValue) {
+        this.board.set(index, newValue);
+    }
+
+    /**
+     * Changes the game board to be a new clean/blank board.
+     */
+    public void resetBoard() {
+        List<String> newBoard = new ArrayList<String>();
+
+        for (int i = 0; i < this.getCellQuantity(); ++i) {
+            newBoard.add(this.getIconEmpty());
+        }
+
+        this.setBoard(newBoard);
     }
 
     public String getIconPlayer1() {
