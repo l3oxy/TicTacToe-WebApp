@@ -11,20 +11,22 @@ public class JavaBean {
     /**
      * The height of the game board.
      * In other words, how many rows are there.
-     * NOTE: if boardHeight and boardWidth are not identical, then diagonal victory detection will be non-perfect.
+     * NOTE: if boardHeight and boardWidth are not identical, then diagonal
+     * victory detection will be non-perfect.
      */
     private int boardHeight;
 
     /**
      * The width of the game board.
      * In other words, how many columns there are.
-     * NOTE: if boardHeight and boardWidth are not identical, then diagonal victory detection will be non-perfect.
+     * NOTE: if boardHeight and boardWidth are not identical, then diagonal
+     * victory detection will be non-perfect.
      */
     private int boardWidth;
 
     /**
      * Describes the state of the board.
-     * For example if board is 9x9 then the index represent cells:
+     * For example if board is 3x3 then the index represent cells:
      *   0 | 1 | 2
      *   ――+―――+―――
      *   3 | 4 | 5
@@ -144,7 +146,8 @@ public class JavaBean {
     /**
      * Sets a cell/spot on the board.
      * @param index On the board, the index of the cell to set.
-     * @param newValue On the board, at the provided index, the new value to put at said index.
+     * @param newValue On the board, at the provided index, the new value to
+     *                 put at said index.
      */
     public void setBoardCell(int index, String newValue) {
         this.board.set(index, newValue);
