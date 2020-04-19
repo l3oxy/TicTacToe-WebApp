@@ -60,12 +60,12 @@ public class JavaBean {
     private boolean gameOver;
 
     /**
-     * Number of games that player1, who's symbol is X, won.
+     * Number of games that player1 has won.
      */
     private int player1Score;
 
     /**
-     * Number of games that player2, who's symbol is O, won.
+     * Number of games that player2 has won.
      */
     private int player2Score;
 

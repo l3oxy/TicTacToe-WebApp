@@ -5,6 +5,10 @@ body {
     background-color: lightblue;
 }
 
+table {
+    border-collapse: collapse;
+}
+
 table, tbody, td {
     margin-left: auto;
     margin-right: auto;
