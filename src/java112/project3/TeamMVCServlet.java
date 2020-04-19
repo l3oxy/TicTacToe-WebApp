@@ -24,6 +24,18 @@ public class TeamMVCServlet extends HttpServlet {
     }
 
     /**
+     * Returns a new game board.
+     * @return A new game board.
+     */
+    private List<String> getNewBoardStates() {
+        List<String> boardStates = new ArrayList<String>();
+        for (int i = 0; i < 9; ++i) {
+            boardStates.add("_");
+        }
+        return boardStates;
+    }
+
+    /**
      * Handles HTTP GET requests.
      *
      * @param request the HttpServletRequest object
@@ -120,13 +132,9 @@ public class TeamMVCServlet extends HttpServlet {
 
         // Checking for Draw or Win, changing the turn string, and setting board
         if (!gameOver && !boardStates.contains("_")) {
-            draws++;
+            ++draws;
             beanData.setDraws(draws);
-            boardStates.clear();
-            for (int i = 0; i < 9; ++i) {
-                boardStates.add("_");
-                beanData.setBoardStates(boardStates);
-            }
+            boardStates = getNewBoardStates();
             if (player1Turn) {
                 turnString = "Game Over! Draw! Starting new game. X's Turn";
             } else {
@@ -136,11 +144,7 @@ public class TeamMVCServlet extends HttpServlet {
             beanData.setPlayer1Score(player1Score);
             beanData.setPlayer2Score(player2Score);
             gameOver = false;
-            boardStates.clear();
-            for (int i = 0; i < 9; ++i) {
-                boardStates.add("_");
-                beanData.setBoardStates(boardStates);
-            }
+            boardStates = getNewBoardStates();
             if (player1Turn) {
                 turnString = "Game Over! O Wins! Starting new game. X's Turn";
             } else {
