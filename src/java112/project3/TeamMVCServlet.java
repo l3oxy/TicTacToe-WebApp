@@ -19,7 +19,7 @@ public class TeamMVCServlet extends HttpServlet {
 
     private JavaBean beanData;
     private final String X = "X";  // Icon for Player1.
-    private final String O = "O";  // Icon for layer2.
+    private final String O = "O";  // Icon for Player2.
     private final String EMPTY = "_";  // Icon for an unused spot.
     private final int boardHeight = 3;  // I.e. quantity of board rows.
     private final int boardWidth = 3;  // I.e. quantity of board columns
