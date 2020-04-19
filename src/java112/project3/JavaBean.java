@@ -9,8 +9,13 @@ import java.util.*;
 public class JavaBean {
 
     /**
-     * Describes the state of the board. The index represent cells: 0, 1, and
-     * 2 being the top row; 3, 4, and 5 the middle; and 6, 7, and 8 the bottom.
+     * Describes the state of the board.
+     * The index represent cells:
+     *   0 | 1 | 2
+     *   ――+―――+―――
+     *   3 | 4 | 5
+     *   ――+―――+―――
+     *   6 | 7 | 8
      */
     private List<String> boardStates;
 

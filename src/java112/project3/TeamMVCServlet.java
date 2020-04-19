@@ -66,7 +66,7 @@ public class TeamMVCServlet extends HttpServlet {
                 if ((boardStates.get(i).equals("X")) &&
                         (boardStates.get(i + 2 * (4 - i)).equals("X"))) {
                     gameOver = true;
-                    player1Score++;
+                    ++player1Score;
                 }
             }
         } else if (boardStates.get(4).equals("O")) {
@@ -74,7 +74,7 @@ public class TeamMVCServlet extends HttpServlet {
                 if ((boardStates.get(i).equals("O")) &&
                         (boardStates.get(i + 2 * (4 - i)).equals("O"))) {
                     gameOver = true;
-                    player2Score++;
+                    ++player2Score;
                 }
             }
         }
@@ -86,34 +86,34 @@ public class TeamMVCServlet extends HttpServlet {
             } else if ((boardStates.get(3).equals("X")) &&
                     (boardStates.get(6).equals("X"))) {
                 gameOver = true;
-                player1Score++;
+                ++player1Score;
             }
         } else if (boardStates.get(8).equals("X")) {
             if ((boardStates.get(5).equals("X")) && (boardStates.get(2).equals("X"))) {
                 gameOver = true;
-                player1Score++;
+                ++player1Score;
             } else if ((boardStates.get(7).equals("X")) &&
                     (boardStates.get(6).equals("X"))) {
                 gameOver = true;
-                player1Score++;
+                ++player1Score;
             }
         } else if (boardStates.get(0).equals("O")) {
             if ((boardStates.get(1).equals("O")) && (boardStates.get(2).equals("O"))) {
                 gameOver = true;
-                player2Score++;
+                ++player2Score;
             } else if ((boardStates.get(3).equals("O")) &&
                     (boardStates.get(6).equals("O"))) {
                 gameOver = true;
-                player2Score++;
+                ++player2Score;
             }
         } else if (boardStates.get(8).equals("O")) {
             if ((boardStates.get(5).equals("O")) && (boardStates.get(2).equals("O"))) {
                 gameOver = true;
-                player2Score++;
+                ++player2Score;
             } else if ((boardStates.get(7).equals("O")) &&
                     (boardStates.get(6).equals("O"))) {
                 gameOver = true;
-                player2Score++;
+                ++player2Score;
             }
         }
 
@@ -158,8 +158,8 @@ public class TeamMVCServlet extends HttpServlet {
 
         request.setAttribute("beanData", beanData);
 
+        // Forwarding to the JSP.
         String url = "/teamMVC.jsp";
-
         RequestDispatcher dispatcher =
                 getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
