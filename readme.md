@@ -2,7 +2,6 @@
 
 ### Team Members:
 - Chris Johnson
-- Takyra Kelsey
 - Kevin Leader
 
 ### Repository Notes
