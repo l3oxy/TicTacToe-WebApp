@@ -70,7 +70,9 @@ public class JavaBean {
     }
 
     public void setBoardStates(List<String> boardStates) {
-        this.boardStates = boardStates;
+        if (boardStates != null) {
+            this.boardStates = boardStates;
+        }
     }
 
     public boolean isPlayer1Turn() {
@@ -118,6 +120,8 @@ public class JavaBean {
     }
 
     public void setTurnString(String turnString) {
-        this.turnString = turnString;
+        if (turnString != null) {
+            this.turnString = turnString;
+        }
     }
 }
