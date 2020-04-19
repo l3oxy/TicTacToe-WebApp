@@ -1,4 +1,4 @@
-<table>
+<table class="game_board">
     <tbody>
     <tr>
         <td><a href="tic-tac-toe?cell=0"><div class="table-cell">${beanData.board[0]}</div></a></td>

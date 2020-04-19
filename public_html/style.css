@@ -5,16 +5,32 @@ body {
     background-color: lightblue;
 }
 
+body * {
+    text-align: center;
+}
+
 table {
     border-collapse: collapse;
 }
 
-table, tbody, td {
+table, tbody, td, th {
     margin-left: auto;
     margin-right: auto;
     border-style: solid;
     border-color: black;
+}
+
+table.game_board tbody, table.game_board td, table.game_board th {
     border-width: 1em;
+}
+
+table {
+    background-color: white;
+}
+
+table.score_board th {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 table a, a:link, a:visited, a:hover, a:active {
@@ -23,10 +39,10 @@ table a, a:link, a:visited, a:hover, a:active {
     border: 0px solid rgba(0, 0, 0, 0);
 }
 
-td {
+table.game_board td {
     width: 5em;
     height: 5em;
-    text-align: center;
+    padding-bottom: 0.5em;
 }
 
 .table-cell {
