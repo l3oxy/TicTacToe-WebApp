@@ -48,6 +48,30 @@ public class TeamMVCServlet extends HttpServlet {
     }
 
     /**
+     * Returns the icon for whose turn it is.
+     * @return The icon for those turn it is.
+     */
+    private String getIconForWhoseTurnItIs() {
+        if (bean.isPlayer1Turn()) {
+            return bean.getIconPlayer1();
+        } else {
+            return bean.getIconPlayer2();
+        }
+    }
+
+    /**
+     * Returns the icon for whose turn it is not.
+     * @return The icon for those turn it is not.
+     */
+    private String getIconForWhoseTurnItIsNot() {
+        if (bean.isPlayer1Turn()) {
+            return bean.getIconPlayer2();
+        } else {
+            return bean.getIconPlayer1();
+        }
+    }
+
+    /**
      * Inspects a vertical column on the board for a victory.
      * @param boardStates the board.
      * @param column the index on the board where the column to inspect begins (the top part of the column).
@@ -294,23 +318,13 @@ public class TeamMVCServlet extends HttpServlet {
         if (!bean.isGameOver() && !boardStates.contains(bean.getIconEmpty())) {
             bean.incrementDraws();
             boardStates = getNewBoardStates();
-            if (bean.isPlayer1Turn()) {
-                bean.setTurnString("Game Over! Draw! Starting new game. " + bean.getIconPlayer1() + "'s Turn");
-            } else {
-                bean.setTurnString("Game Over! Draw! Starting new game. " + bean.getIconPlayer2() + "'s Turn");
-            }
+            bean.setTurnString("Game Over! Draw! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
         } else if (bean.isGameOver()) {
             bean.setGameOver(false);
             boardStates = getNewBoardStates();
-            if (bean.isPlayer1Turn()) {
-                bean.setTurnString("Game Over! " + bean.getIconPlayer2() + " Wins! Starting new game. " + bean.getIconPlayer1() + "'s Turn");
-            } else {
-                bean.setTurnString("Game Over! " + bean.getIconPlayer1() + " Wins! Starting new game. " + bean.getIconPlayer2() + "'s Turn");
-            }
-        } else if (bean.isPlayer1Turn()) {
-            bean.setTurnString(bean.getIconPlayer1() + "'s Turn");
+            bean.setTurnString("Game Over! " + getIconForWhoseTurnItIsNot() + " Wins! Starting new game. " + getIconForWhoseTurnItIs() + "'s Turn");
         } else {
-            bean.setTurnString(bean.getIconPlayer2() + "'s Turn");
+            bean.setTurnString(getIconForWhoseTurnItIs() + "'s Turn");
         }
 
         // Setting bean data
