@@ -16,7 +16,7 @@ table, tbody, td {
 table a, a:link, a:visited, a:hover, a:active {
     text-decoration: none !important;
     color: black;
-    border: 0px solid black;
+    border: 0px solid rgba(0, 0, 0, 0);
 }
 
 td {
