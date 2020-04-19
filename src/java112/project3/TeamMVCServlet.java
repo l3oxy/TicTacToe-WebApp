@@ -61,57 +61,57 @@ public class TeamMVCServlet extends HttpServlet {
 
         // Checking for a win
         // Checking for a win involving the center
-        if (boardStates.get(4) == "X") {
+        if (boardStates.get(4).equals("X")) {
             for (int i = 0; i < 4; i++) {
-                if ((boardStates.get(i) == "X") &&
-                        (boardStates.get(i + 2 * (4 - i)) == "X")) {
+                if ((boardStates.get(i).equals("X")) &&
+                        (boardStates.get(i + 2 * (4 - i)).equals("X"))) {
                     gameOver = true;
                     player1Score++;
                 }
             }
-        } else if (boardStates.get(4) == "O") {
+        } else if (boardStates.get(4).equals("O")) {
             for (int i = 0; i < 4; i++) {
-                if ((boardStates.get(i) == "O") &&
-                        (boardStates.get(i + 2 * (4 - i)) == "O")) {
+                if ((boardStates.get(i).equals("O")) &&
+                        (boardStates.get(i + 2 * (4 - i)).equals("O"))) {
                     gameOver = true;
                     player2Score++;
                 }
             }
         }
         // Checking for a win involving just sides
-        if (boardStates.get(0) == "X") {
-            if ((boardStates.get(1) == "X") && (boardStates.get(2) == "X")) {
+        if (boardStates.get(0).equals("X")) {
+            if ((boardStates.get(1).equals("X")) && (boardStates.get(2).equals("X"))) {
                 gameOver = true;
                 player1Score++;
-            } else if ((boardStates.get(3) == "X") &&
-                    (boardStates.get(6) == "X")) {
-                gameOver = true;
-                player1Score++;
-            }
-        } else if (boardStates.get(8) == "X") {
-            if ((boardStates.get(5) == "X") && (boardStates.get(2) == "X")) {
-                gameOver = true;
-                player1Score++;
-            } else if ((boardStates.get(7) == "X") &&
-                    (boardStates.get(6) == "X")) {
+            } else if ((boardStates.get(3).equals("X")) &&
+                    (boardStates.get(6).equals("X"))) {
                 gameOver = true;
                 player1Score++;
             }
-        } else if (boardStates.get(0) == "O") {
-            if ((boardStates.get(1) == "O") && (boardStates.get(2) == "O")) {
+        } else if (boardStates.get(8).equals("X")) {
+            if ((boardStates.get(5).equals("X")) && (boardStates.get(2).equals("X"))) {
+                gameOver = true;
+                player1Score++;
+            } else if ((boardStates.get(7).equals("X")) &&
+                    (boardStates.get(6).equals("X"))) {
+                gameOver = true;
+                player1Score++;
+            }
+        } else if (boardStates.get(0).equals("O")) {
+            if ((boardStates.get(1).equals("O")) && (boardStates.get(2).equals("O"))) {
                 gameOver = true;
                 player2Score++;
-            } else if ((boardStates.get(3) == "O") &&
-                    (boardStates.get(6) == "O")) {
+            } else if ((boardStates.get(3).equals("O")) &&
+                    (boardStates.get(6).equals("O"))) {
                 gameOver = true;
                 player2Score++;
             }
-        } else if (boardStates.get(8) == "O") {
-            if ((boardStates.get(5) == "O") && (boardStates.get(2) == "O")) {
+        } else if (boardStates.get(8).equals("O")) {
+            if ((boardStates.get(5).equals("O")) && (boardStates.get(2).equals("O"))) {
                 gameOver = true;
                 player2Score++;
-            } else if ((boardStates.get(7) == "O") &&
-                    (boardStates.get(6) == "O")) {
+            } else if ((boardStates.get(7).equals("O")) &&
+                    (boardStates.get(6).equals("O"))) {
                 gameOver = true;
                 player2Score++;
             }
@@ -165,11 +165,7 @@ public class TeamMVCServlet extends HttpServlet {
         dispatcher.forward(request, response);
 
         // Changing the turn
-        if (player1Turn) {
-            player1Turn = false;
-        } else {
-            player1Turn = true;
-        }
+        player1Turn = !player1Turn;
         beanData.setPlayer1Turn(player1Turn);
     }
 }
