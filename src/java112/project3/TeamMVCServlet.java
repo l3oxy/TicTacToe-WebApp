@@ -23,6 +23,7 @@ public class TeamMVCServlet extends HttpServlet {
      * Sets up the game.
      * @throws ServletException Servlet Exception.
      */
+    @Override
     public void init() throws ServletException {
         bean = new JavaBean();
         bean.setBoardHeight(3);
@@ -262,7 +263,6 @@ public class TeamMVCServlet extends HttpServlet {
 
         List<String> boardStates = bean.getBoardStates();
         int cellSelected = -1;
-        String turnString;
 
         // Getting the selected cell
         if (request.getParameter("cell") != null) {
@@ -295,26 +295,25 @@ public class TeamMVCServlet extends HttpServlet {
             bean.incrementDraws();
             boardStates = getNewBoardStates();
             if (bean.isPlayer1Turn()) {
-                turnString = "Game Over! Draw! Starting new game. " + bean.getIconPlayer1() + "'s Turn";
+                bean.setTurnString("Game Over! Draw! Starting new game. " + bean.getIconPlayer1() + "'s Turn");
             } else {
-                turnString = "Game Over! Draw! Starting new game. " + bean.getIconPlayer2() + "'s Turn";
+                bean.setTurnString("Game Over! Draw! Starting new game. " + bean.getIconPlayer2() + "'s Turn");
             }
         } else if (bean.isGameOver()) {
             bean.setGameOver(false);
             boardStates = getNewBoardStates();
             if (bean.isPlayer1Turn()) {
-                turnString = "Game Over! " + bean.getIconPlayer2() + " Wins! Starting new game. " + bean.getIconPlayer1() + "'s Turn";
+                bean.setTurnString("Game Over! " + bean.getIconPlayer2() + " Wins! Starting new game. " + bean.getIconPlayer1() + "'s Turn");
             } else {
-                turnString = "Game Over! " + bean.getIconPlayer1() + " Wins! Starting new game. " + bean.getIconPlayer2() + "'s Turn";
+                bean.setTurnString("Game Over! " + bean.getIconPlayer1() + " Wins! Starting new game. " + bean.getIconPlayer2() + "'s Turn");
             }
         } else if (bean.isPlayer1Turn()) {
-            turnString = bean.getIconPlayer1() + "'s Turn";
+            bean.setTurnString(bean.getIconPlayer1() + "'s Turn");
         } else {
-            turnString = bean.getIconPlayer2() + "'s Turn";
+            bean.setTurnString(bean.getIconPlayer2() + "'s Turn");
         }
 
         // Setting bean data
-        bean.setTurnString(turnString);
         bean.setBoardStates(boardStates);
 
         request.setAttribute("beanData", bean);
