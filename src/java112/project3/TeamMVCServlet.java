@@ -18,6 +18,13 @@ import javax.servlet.annotation.*;
 public class TeamMVCServlet extends HttpServlet {
 
     private JavaBean beanData;
+    private final String X = "X";  // Icon for Player1.
+    private final String O = "O";  // Icon for layer2.
+    private final String EMPTY = "_";  // Icon for an unused spot.
+    private final int boardHeight = 3;  // I.e. quantity of board rows.
+    private final int boardWidth = 3;  // I.e. quantity of board columns
+    // NOTE: if boardHeight and boardWidth are not identical, the diagonal victory detection will be non-perfect.
+    private final int quantityOfCells = boardHeight * boardWidth;
 
     public void init() throws ServletException {
         beanData = new JavaBean();
@@ -29,10 +36,176 @@ public class TeamMVCServlet extends HttpServlet {
      */
     private List<String> getNewBoardStates() {
         List<String> boardStates = new ArrayList<String>();
-        for (int i = 0; i < 9; ++i) {
-            boardStates.add("_");
+
+        for (int i = 0; i < quantityOfCells; ++i) {
+            boardStates.add(EMPTY);
         }
+
         return boardStates;
+    }
+
+    /**
+     * Inspects a vertical column on the board for a victory.
+     * @param boardStates the board.
+     * @param column the index on the board where the column to inspect begins (the top part of the column).
+     * @return the icon the won, or EMPTY if nobody won on the specified row.
+     */
+    private String checkColumn(List<String> boardStates, int column) {
+        // Get the icon at the top of the column.
+        String topCellOfColumn = boardStates.get(column);
+
+        // If the top cell of this column is null or empty, then go to the next column.
+        if (topCellOfColumn != null && !topCellOfColumn.equals(EMPTY)) {
+
+            // Regarding the top-most cell in this column, check if all other cells in this column are equal to said top-most cell.
+            for (int currentCell = (column + boardWidth); currentCell < quantityOfCells; currentCell += boardWidth) {
+                // Compare this cell to the top cell of this column.
+                if (!boardStates.get(currentCell).equals(topCellOfColumn)) {
+                    return EMPTY;
+                }
+            }
+
+            // All cells in this column are identical and not empty. Thus a victory has been detected.
+            return topCellOfColumn;
+        }
+
+        // No victory detected in this column.
+        return EMPTY;
+    }
+
+    /**
+     * Checks if a vertical win has occurred.
+     * @param boardStates the current game board.
+     * @return The icon/symbol that has won, or the EMPTY icon if no win detected.
+     */
+    private String checkForVerticalWins(List<String> boardStates) {
+        String rowVictor;
+
+        // For each column ...
+        for (int column = 0; column < boardWidth; ++column) {
+
+            rowVictor = checkColumn(boardStates, column);
+
+            if (!rowVictor.equals(EMPTY)) {
+                return rowVictor;
+            }
+        }
+
+        // No vertical victories detected.
+        return EMPTY;
+    }
+
+    /**
+     * Inspects a horizontal row on the board for a victory.
+     * @param boardStates the board.
+     * @param row the index on the board where the row to inspect begins (the left-most part).
+     * @return the icon that won, or EMPTY if nobody won on the specified row.
+     */
+    private String checkRow(List<String> boardStates, int row) {
+        // In the current row, in the cell that is most left, the icon inside it.
+        String leftMostCellInRow = boardStates.get(row);
+
+        // In the current row, if left-most cell is not empty/null, then this row could have a victory.
+        if (leftMostCellInRow != null && !leftMostCellInRow.equals(EMPTY)) {
+
+            // Regarding the left-most cell in this row, check if all other cells in this row are equal to said left-most cell.
+            for (int cellInRow = row; cellInRow < (row + boardWidth); ++cellInRow) {
+                if (!boardStates.get(cellInRow).equals(leftMostCellInRow)) {
+                    // Cells are not identical.
+                    return EMPTY;
+                }
+            }
+
+            // All cells in this row are identical and not empty. Thus a victory has been detected.
+            return leftMostCellInRow;
+        }
+
+        // No victory detected in this row.
+        return EMPTY;
+    }
+
+    /**
+     * Checks if a horizontal win has occurred.
+     * @return The icon/symbol that has won, or the EMPTY icon if no win detected.
+     */
+    private String checkForHorizontalWins(List<String> boardStates) {
+        String rowVictor;
+
+        // For each row...
+        for (int row = 0; row < (quantityOfCells - 1); row += boardWidth) {
+
+            rowVictor = checkRow(boardStates, row);
+
+            if (!rowVictor.equals(EMPTY)) {
+                return rowVictor;
+            }
+        }
+
+        // No horizontal victories detected.
+        return EMPTY;
+    }
+
+    /**
+     * Checks if a diagonal top-left to bottom-right win has occurred.
+     * @return The icon/symbol that has won, or the EMPTY icon if no win detected.
+     */
+    private String checkForDiagonalTopLeftToBottomRightWin(List<String> boardStates) {
+        String topMostCellInDiagonal = boardStates.get(0);  // In the current diagonal, in the cell that is nearest the top/start, the icon inside it.
+
+        // If the top-most cell is empty, then this diagonal does not have a victory.
+        if (topMostCellInDiagonal == null || topMostCellInDiagonal.equals(EMPTY)) {
+            return EMPTY;
+        }
+
+        // Regarding the top-most cell in this diagonal, check if all other cells in this diagonal are equal to said top-most cell.
+        for (int currentCell = (boardWidth + 1); currentCell < quantityOfCells; currentCell += (boardWidth + 1)) {
+            if (!boardStates.get(currentCell).equals(topMostCellInDiagonal)) {
+                // No diagonal victories detected.
+                return EMPTY;
+            }
+        }
+
+        // Diagonal victory detected.
+        return topMostCellInDiagonal;
+    }
+
+    /**
+     * Checks if a diagonal top-right to bottom-left win has occurred.
+     * @return The icon/symbol that has won, or the EMPTY icon if no win detected.
+     */
+    private String checkForDiagonalTopRightToBottomLeftWin(List<String> boardStates) {
+        String topMostCellInDiagonal = boardStates.get(boardWidth - 1);  // In the current diagonal, in the cell that is nearest the top/start, the icon inside it.
+
+        // If the top-most cell is empty, then this diagonal does not have a victory.
+        if (topMostCellInDiagonal == null || topMostCellInDiagonal.equals(EMPTY)) {
+            return EMPTY;
+        }
+
+        // Regarding the top-most cell in this diagonal, check if all other cells in this diagonal are equal to said top-most cell.
+        for (int currentCell = ((boardWidth * 2) - 2); currentCell < (quantityOfCells - 1); currentCell += (boardWidth - 1)) {
+            if (!boardStates.get(currentCell).equals(topMostCellInDiagonal)) {
+                // No diagonal victories detected.
+                return EMPTY;
+            }
+        }
+
+        // Diagonal victory detected.
+        return topMostCellInDiagonal;
+    }
+
+    /**
+     * Checks if a diagonal win has occurred.
+     * @return The icon/symbol that has won, or the EMPTY icon if no win detected.
+     */
+    private String checkForDiagonalWins(List<String> boardStates) {
+        String resultOfFirstDiagonalVictoryCheck;
+
+        resultOfFirstDiagonalVictoryCheck = checkForDiagonalTopLeftToBottomRightWin(boardStates);
+        if (!resultOfFirstDiagonalVictoryCheck.equals(EMPTY)) {
+            return resultOfFirstDiagonalVictoryCheck;
+        } else {
+            return checkForDiagonalTopRightToBottomLeftWin(boardStates);
+        }
     }
 
     /**
@@ -54,8 +227,6 @@ public class TeamMVCServlet extends HttpServlet {
         int draws = beanData.getDraws();
         int cellSelected = -1;
         String turnString;
-        final String X = "X";
-        final String O = "O";
 
         // Getting the selected cell
         if (request.getParameter("cell") != null) {
@@ -64,7 +235,7 @@ public class TeamMVCServlet extends HttpServlet {
 
         // Changing the board state based on the selected cell
         if (0 <= cellSelected && cellSelected <= 8) {  // if spot is valid
-            if (boardStates.get(cellSelected).equals("_")) {  // If spot is not already taken
+            if (boardStates.get(cellSelected).equals(EMPTY)) {  // If spot is not already taken
                 if (player1Turn) {
                     boardStates.set(cellSelected, O);
                 } else {
@@ -75,61 +246,44 @@ public class TeamMVCServlet extends HttpServlet {
 
 
         // Checking for a win
-        // Checking for a win involving the center
-        if (boardStates.get(4).equals(X)) {
-            for (int i = 0; i < 4; i++) {
-                if ((boardStates.get(i).equals(X)) &&
-                        (boardStates.get(i + 2 * (4 - i)).equals(X))) {
-                    gameOver = true;
-                    ++player1Score;
-                }
-            }
-        } else if (boardStates.get(4).equals(O)) {
-            for (int i = 0; i < 4; i++) {
-                if ((boardStates.get(i).equals(O)) &&
-                        (boardStates.get(i + 2 * (4 - i)).equals(O))) {
-                    gameOver = true;
-                    ++player2Score;
-                }
-            }
+        // Checking for a vertical win
+        switch (checkForVerticalWins(boardStates)) {
+            case X:
+                gameOver = true;
+                ++player1Score;
+                break;
+            case O:
+                gameOver = true;
+                ++player2Score;
+                break;
+            case EMPTY:
+                break;
         }
-        // Checking for a win involving just sides
-        if (boardStates.get(0).equals(X)) {
-            if ((boardStates.get(1).equals(X)) && (boardStates.get(2).equals(X))) {
+        // Checking for a horizontal win
+        switch (checkForHorizontalWins(boardStates)) {
+            case X:
                 gameOver = true;
                 ++player1Score;
-            } else if ((boardStates.get(3).equals(X)) &&
-                    (boardStates.get(6).equals(X))) {
+                break;
+            case O:
+                gameOver = true;
+                ++player2Score;
+                break;
+            case EMPTY:
+                break;
+        }
+        // Checking for a diagonal win
+        switch (checkForDiagonalWins(boardStates)) {
+            case X:
                 gameOver = true;
                 ++player1Score;
-            }
-        } else if (boardStates.get(8).equals(X)) {
-            if ((boardStates.get(5).equals(X)) && (boardStates.get(2).equals(X))) {
-                gameOver = true;
-                ++player1Score;
-            } else if ((boardStates.get(7).equals(X)) &&
-                    (boardStates.get(6).equals(X))) {
-                gameOver = true;
-                ++player1Score;
-            }
-        } else if (boardStates.get(0).equals(O)) {
-            if ((boardStates.get(1).equals(O)) && (boardStates.get(2).equals(O))) {
+                break;
+            case O:
                 gameOver = true;
                 ++player2Score;
-            } else if ((boardStates.get(3).equals(O)) &&
-                    (boardStates.get(6).equals(O))) {
-                gameOver = true;
-                ++player2Score;
-            }
-        } else if (boardStates.get(8).equals(O)) {
-            if ((boardStates.get(5).equals(O)) && (boardStates.get(2).equals(O))) {
-                gameOver = true;
-                ++player2Score;
-            } else if ((boardStates.get(7).equals(O)) &&
-                    (boardStates.get(6).equals(O))) {
-                gameOver = true;
-                ++player2Score;
-            }
+                break;
+            case EMPTY:
+                break;
         }
 
         // Checking for Draw or Win, changing the turn string, and setting board
@@ -148,9 +302,9 @@ public class TeamMVCServlet extends HttpServlet {
             gameOver = false;
             boardStates = getNewBoardStates();
             if (player1Turn) {
-                turnString = "Game Over! O Wins! Starting new game. " + X + "'s Turn";
+                turnString = "Game Over! " + O + " Wins! Starting new game. " + X + "'s Turn";
             } else {
-                turnString = "Game Over! X Wins! Starting new game. " + O + "'s Turn";
+                turnString = "Game Over! " + X + " Wins! Starting new game. " + O + "'s Turn";
             }
         } else if (player1Turn) {
             turnString = X + "'s Turn";
