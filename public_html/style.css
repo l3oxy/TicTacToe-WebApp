@@ -65,3 +65,8 @@ table.game_board td {
     margin-right: auto;
     margin-bottom: 1em;
 }
+
+img {
+    width: 100%;
+    height: auto;
+}
