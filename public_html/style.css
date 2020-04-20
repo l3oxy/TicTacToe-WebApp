@@ -72,3 +72,12 @@ img {
     margin-right: auto;
     width: 500px;
 }
+
+p, ol, li {
+    text-align: left;
+    line-height: 1.4;
+}
+
+li {
+    margin-bottom: 5px;
+}
