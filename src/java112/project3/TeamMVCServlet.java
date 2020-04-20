@@ -29,6 +29,7 @@ public class TeamMVCServlet extends HttpServlet {
         bean.setIconPlayer1("X");
         bean.setIconPlayer2("O");
         bean.setIconEmpty("_");
+        bean.resetBoard();
     }
 
     /**
@@ -181,7 +182,7 @@ public class TeamMVCServlet extends HttpServlet {
 
         // For each row...
         for (int row = 0; row < (bean.getCellQuantity() - 1);
-                row +=bean.getBoardWidth()) {
+                row += bean.getBoardWidth()) {
 
             rowVictor = checkThisRow(row);
 

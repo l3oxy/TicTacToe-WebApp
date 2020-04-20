@@ -1,46 +1,21 @@
+<%@ page import="java112.project3.JavaBean" %>
 <table class="game_board">
     <tbody>
-	    <tr>
-			<td>
-				<a href="tic-tac-toe?cell=0"><div class="table-cell">
-					${beanData.board[0]}</div></a>
-			</td>
-			<td>
-				<a href="tic-tac-toe?cell=1"><div class="table-cell">
-					${beanData.board[1]}</div></a>
-			</td>
-			<td>
-				<a href="tic-tac-toe?cell=2"><div class="table-cell">
-					${beanData.board[2]}</div></a>
-			</td>
-	    </tr>
-	    <tr>
-			<td>
-				<a href="tic-tac-toe?cell=3"><div class="table-cell">
-					${beanData.board[3]}</div></a>
-			</td>
-			<td>
-				<a href="tic-tac-toe?cell=4"><div class="table-cell">
-					${beanData.board[4]}</div></a>
-			</td>
-			<td>
-				<a href="tic-tac-toe?cell=5"><div class="table-cell">
-					${beanData.board[5]}</div></a>
-			</td>
-		</tr>
-	    <tr>
-			<td>
-				<a href="tic-tac-toe?cell=6"><div class="table-cell">
-					${beanData.board[6]}</div></a>
-			</td>
-			<td>
-				<a href="tic-tac-toe?cell=7"><div class="table-cell">
-					${beanData.board[7]}</div></a>
-			</td>
-			<td>
-				<a href="tic-tac-toe?cell=8"><div class="table-cell">
-					${beanData.board[8]}</div></a>
-			</td>
-	    </tr>
+		<%	int cell = 0;
+			JavaBean beanData = (JavaBean) request.getAttribute("beanData");
+			for (int row = 0; row < beanData.getBoardHeight(); ++row) {
+			out.print("<tr>");
+			for (int col = 0; col < beanData.getBoardWidth(); ++col) {
+				out.print("<td>" +
+						"<a href=\"tic-tac-toe?cell=" + cell + "\">" +
+						"<div class=\"table-cell\">" +
+						beanData.getBoardCell(cell) +
+						"</div>" +
+						"</a>" +
+						"</td>");
+				++cell;
+			}
+			out.print("</tr>");
+		}%>
     </tbody>
 </table>
