@@ -10,6 +10,8 @@
 
     <%@ include file="beanDetailsTable.jsp" %>
 
+    <h4>Diagram of Application</h4>
     <img src="images/mvcDiagram.jpg" alt="MVC Diagram">
+
 </body>
 </html>
