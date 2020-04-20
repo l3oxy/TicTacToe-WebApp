@@ -16,6 +16,9 @@ import javax.servlet.annotation.*;
 )
 public class TeamMVCServlet extends HttpServlet {
 
+    /**
+     * The MVC model (houses the data).
+     */
     private JavaBean bean;
 
     /**

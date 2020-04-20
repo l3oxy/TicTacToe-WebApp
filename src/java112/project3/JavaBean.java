@@ -10,18 +10,18 @@ import java.util.*;
 public class JavaBean {
 
     /**
-     * The height of the game board.
+     * The height of the game {@link #board}.
      * In other words, how many rows are there.
-     * NOTE: if boardHeight and boardWidth are not identical, then diagonal
-     * victory detection will be non-perfect.
+     * NOTE: if boardHeight and {@link #boardWidth} are not identical,
+     * then diagonal victory detection will be non-perfect.
      */
     private int boardHeight;
 
     /**
-     * The width of the game board.
+     * The width of the game {@link #board}.
      * In other words, how many columns there are.
-     * NOTE: if boardHeight and boardWidth are not identical, then diagonal
-     * victory detection will be non-perfect.
+     * NOTE: if {@link #boardHeight} and boardWidth are not identical, then
+     * diagonal victory detection will be non-perfect.
      */
     private int boardWidth;
 
@@ -33,11 +33,25 @@ public class JavaBean {
      *   3 | 4 | 5
      *   ――+―――+―――
      *   6 | 7 | 8
+     *
+     *   <br />
+     *   (for javaDoc/HTML viewers of this documentation:)
+     *   <table>
+     *       <tr>
+     *           <td>0</td><td>1</td><td>2</td>
+     *       </tr>
+     *       <tr>
+     *           <td>3</td><td>4</td><td>5</td>
+     *       </tr>
+     *       <tr>
+     *           <td>6</td><td>7</td><td>8</td>
+     *       </tr>
+     *   </table>
      */
     private List<String> board;
 
     /**
-     * The icon for an empty/un-claimed spot on the board.
+     * The icon for an empty/un-claimed spot on the {@link #board}.
      */
     private String iconEmpty;
 
@@ -97,16 +111,16 @@ public class JavaBean {
     }
 
     /**
-     * Returns the board's height.
-     * @return the board's height.
+     * Returns the {@link #boardHeight}.
+     * @return the {@link #boardHeight}.
      */
     public int getBoardHeight() {
         return this.boardHeight;
     }
 
     /**
-     * Sets the board's height.
-     * @param boardHeight The board's new height. Must be 1 or more.
+     * Sets the {@link #boardHeight}.
+     * @param boardHeight The new {@link #boardHeight}. Must be 1 or more.
      */
     public void setBoardHeight(int boardHeight) {
         if (boardHeight >= 1) {
@@ -115,16 +129,16 @@ public class JavaBean {
     }
 
     /**
-     * Returns the board's width.
-     * @return The board's width.
+     * Returns the {@link #boardWidth}.
+     * @return The {@link #boardWidth}.
      */
     public int getBoardWidth() {
         return this.boardWidth;
     }
 
     /**
-     * Sets the board's width.
-     * @param boardWidth The board's new width.
+     * Sets the {@link #boardWidth}.
+     * @param boardWidth The new {@link #boardWidth}.
      */
     public void setBoardWidth(int boardWidth) {
         if (boardWidth >= 1) {
@@ -133,24 +147,24 @@ public class JavaBean {
     }
 
     /**
-     * The quantity / number of cells in the game board.
-     * @return The quantity / number of cells in the game board.
+     * The quantity / number of cells in the game {@link #board}.
+     * @return The quantity / number of cells in the game {@link #board}.
      */
     public int getCellQuantity() {
         return (getBoardHeight() * getBoardWidth());
     }
 
     /**
-     * Returns the board.
-     * @return The board.
+     * Returns the {@link #board}.
+     * @return The {@link #board}.
      */
     public List<String> getBoard() {
         return board;
     }
 
     /**
-     * Sets the board with a provided new board.
-     * @param board The new board. Must not be null.
+     * Sets the {@link #board} with a provided new board.
+     * @param board The new {@link #board}. Must not be null.
      */
     public void setBoard(List<String> board) {
         if (board != null) {
@@ -159,18 +173,19 @@ public class JavaBean {
     }
 
     /**
-     * Gets a cell/spot from the board.
-     * @param index On the board, the index of the cell to get.
-     * @return On the board, at the provided index, the value at said index.
+     * Gets a cell/spot from the {@link #board}.
+     * @param index On the {@link #board}, the index of the cell to get.
+     * @return On the {@link #board}, at the provided index, the value at said
+     * index.
      */
     public String getBoardCell(int index) {
         return this.board.get(index);
     }
 
     /**
-     * Sets a cell/spot on the board.
-     * @param index On the board, the index of the cell to set.
-     * @param newValue On the board, at the provided index, the new value to
+     * Sets a cell/spot on the {@link #board}.
+     * @param index On the {@link #board}, the index of the cell to set.
+     * @param newValue On the {@link #board}, at the provided index, the new value to
      *                 put at said index.
      */
     public void setBoardCell(int index, String newValue) {
@@ -178,7 +193,7 @@ public class JavaBean {
     }
 
     /**
-     * Changes the game board to be a new clean/blank board.
+     * Changes the game {@link #board} to be a new clean/blank board.
      */
     public void resetBoard() {
         List<String> newBoard = new ArrayList<String>();
@@ -191,16 +206,16 @@ public class JavaBean {
     }
 
     /**
-     * Returns Player 1's icon.
-     * @return Player 1's icon.
+     * Returns {@link #iconPlayer1}.
+     * @return {@link #iconPlayer1}.
      */
     public String getIconPlayer1() {
         return iconPlayer1;
     }
 
     /**
-     * Sets Player 1's icon.
-     * @param iconPlayer1 The new icon for player 1.
+     * Sets {@link #iconPlayer1}.
+     * @param iconPlayer1 The new {@link #iconPlayer1}.
      *                    Must be neither null nor empty.
      */
     public void setIconPlayer1(String iconPlayer1) {
@@ -210,16 +225,16 @@ public class JavaBean {
     }
 
     /**
-     * Returns Player 2's icon.
-     * @return Player 2's icon.
+     * Returns {@link #iconPlayer2}.
+     * @return {@link #iconPlayer2}.
      */
     public String getIconPlayer2() {
         return iconPlayer2;
     }
 
     /**
-     * Sets Player 2's icon.
-     * @param iconPlayer2 The new icon for Player 2.
+     * Sets {@link #iconPlayer2}.
+     * @param iconPlayer2 The new {@link #iconPlayer2}.
      *                    Must be neither null nor empty.
      */
     public void setIconPlayer2(String iconPlayer2) {
@@ -229,16 +244,16 @@ public class JavaBean {
     }
 
     /**
-     * Returns the empty/unused icon.
-     * @return The empty/unused icon.
+     * Returns the empty/unused icon, {@link #iconEmpty}.
+     * @return The empty/unused icon, {@link #iconEmpty}.
      */
     public String getIconEmpty() {
         return iconEmpty;
     }
 
     /**
-     * Sets the empty/unused icon.
-     * @param iconEmpty The new icon for empty/unused spots.
+     * Sets the empty/unused icon, {@link #iconEmpty}.
+     * @param iconEmpty The new {@link #iconEmpty}.
      *                  Must be neither null nor empty.
      *                  E.g. "_".
      */
@@ -249,7 +264,7 @@ public class JavaBean {
     }
 
     /**
-     * Tells you if it is Player 1's turn.
+     * Tells you if it is Player 1's turn, {@link #player1Turn}.
      * @return If it is Player 1's turn, then return true. Else false.
      */
     public boolean isPlayer1Turn() {
@@ -257,7 +272,8 @@ public class JavaBean {
     }
 
     /**
-     * Sets the value that determines if it is Player 1's turn, or Player 2's.
+     * Sets the value {@link #player1Turn} that determines if it is
+     * Player 1's turn, or Player 2's.
      * @param player1Turn The new value for "player1turn".
      *                    If it should be player 1's turn, provide true.
      *                    Else if it should be player 2's turn, provide false.
@@ -267,14 +283,14 @@ public class JavaBean {
     }
 
     /**
-     * Changes the turn.
+     * Changes the turn, by inverting {@link #player1Turn}
      */
     public void changeTurn() {
         this.player1Turn = !this.player1Turn;
     }
 
     /**
-     * Returns value indicating if the game is over.
+     * Returns value indicating if the game is over, {@link #gameOver}.
      * @return If the game is over, returns true. Else returns false.
      */
     public boolean isGameOver() {
@@ -282,7 +298,7 @@ public class JavaBean {
     }
 
     /**
-     * Sets value that determines if the game is over.
+     * Sets value that determines if the game is over, {@link #gameOver}.
      * @param gameOver If game should be over, provide true.
      *                 Else if game should not be over, provide false.
      */
@@ -291,7 +307,7 @@ public class JavaBean {
     }
 
     /**
-     * Gets Player 1's score.
+     * Gets Player 1's score, {@link #player1Score}.
      * @return Player 1's score.
      */
     public int getPlayer1Score() {
@@ -299,7 +315,7 @@ public class JavaBean {
     }
 
     /**
-     * Sets Player 1's score.
+     * Sets Player 1's score, {@link #player1Score}.
      * @param player1Score Player 1's new score. Must be 0 or greater.
      */
     public void setPlayer1Score(int player1Score) {
@@ -309,14 +325,14 @@ public class JavaBean {
     }
 
     /**
-     * Increments Player 1's score (i.e. increases it by 1).
+     * Increments Player 1's score, {@link #player1Score} (i.e. increases it by 1).
      */
     public void incrementScorePlayer1() {
         ++this.player1Score;
     }
 
     /**
-     * Returns Player 2's score.
+     * Returns Player 2's score, {@link #player2Score}.
      * @return Player 2's score.
      */
     public int getPlayer2Score() {
@@ -324,7 +340,7 @@ public class JavaBean {
     }
 
     /**
-     * Sets Player 2's score.
+     * Sets Player 2's score, {@link #player2Score}.
      * @param player2Score Player 2's new score. Must be 0 or greater.
      */
     public void setPlayer2Score(int player2Score) {
@@ -334,14 +350,15 @@ public class JavaBean {
     }
 
     /**
-     * Increments Player 2's score (i.e. increases it by 1).
+     * Increments Player 2's score (i.e. increases it by 1), {@link #player2Score}.
      */
     public void incrementScorePlayer2() {
         ++this.player2Score;
     }
 
     /**
-     * Returns the number of draws that have occurred / been detected.
+     * Returns the number of draws that have occurred / been detected,
+     * {@link #draws).
      * @return The number of draws that have occurred / been detected.
      */
     public int getDraws() {
@@ -349,7 +366,7 @@ public class JavaBean {
     }
 
     /**
-     * Sets the number of draws.
+     * Sets the number of draws, {@link #draws}.
      * @param draws The new number of draws.
      */
     public void setDraws(int draws) {
@@ -357,14 +374,14 @@ public class JavaBean {
     }
 
     /**
-     * Increments the number of draws (i.e. increases it by 1).
+     * Increments the number of draws (i.e. increases it by 1), {@link #draws}.
      */
     public void incrementDraws() {
         ++this.draws;
     }
 
     /**
-     * Returns the "turnString" used for displaying to players whose turn it is,
+     * Returns {@link #turnString} used for displaying to players whose turn it is,
      * and if a player has won, and if a draw has occurred.
      * @return The "turnString" value.
      */
@@ -373,7 +390,7 @@ public class JavaBean {
     }
 
     /**
-     * Sets the "turnString" value used for displaying to players whose turn it
+     * Sets {@link #turnString} value used for displaying to players whose turn it
      * is, and if a player has won, and if a draw has occurred.
      * @param turnString The new value for "turnString".
      *                   Must not be null.
