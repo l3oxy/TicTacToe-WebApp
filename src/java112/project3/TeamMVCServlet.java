@@ -8,6 +8,7 @@ import javax.servlet.annotation.*;
 /**
  * This is a servlet that gets and changes data depending on the values in the
  * JavaBean for the Team MVC project.
+ * @author github.com/l3oxy and github.com/kileader
  */
 @WebServlet(
         name = "teamMVC",
