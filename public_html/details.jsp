@@ -22,7 +22,7 @@
             TeamMVCServlet controller.
         </li>
         <li>
-            On first access, the <code>init()</code> method in the controller
+            On first access, the controller's <code>init()</code> method
             creates a JavaBean object and sets initial values for the board's
             height, width, and the icons for player 1, player 2, and
             unused/empty.
